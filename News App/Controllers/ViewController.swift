@@ -7,11 +7,14 @@
 
 import UIKit
 import SafariServices
+import SDWebImage
+
 
 class ViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
-
+    @IBOutlet weak var newsLabel: UILabel!
+    @IBOutlet weak var topHeadlinesLabel: UILabel!
     
     //var newsManager = NewsManager()
     
@@ -22,17 +25,24 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
         tableView.dataSource = self
         tableView.delegate = self
+        
         getNews()
-        //print(newsArray)
-        //newsManager.fetchNews()
-        //self.tableView.rowHeight = 250
+        
+        newsLabel.font = UIFont.boldSystemFont(ofSize: 32)
+        
+        topHeadlinesLabel.font = topHeadlinesLabel.font.withSize(32)
+        topHeadlinesLabel.textColor = .gray
         
         tableView.register(UINib(nibName: "NewsCell", bundle: nil), forCellReuseIdentifier: "cell")
         
     }
     
     func getNews() {
-        guard let url = URL(string: "https://newsapi.org/v2/top-headlines?country=sa&category=business&apiKey=c48088d2c6704e9692a00e6de346f105") else {
+        let baseUrlString = "https://newsapi.org/v2/"
+        let topHeadline = "top-headlines?country=sa"
+        
+        let urlString = "\(baseUrlString)\(topHeadline)&apiKey=\(APIKey.key)"
+        guard let url = URL(string: urlString) else {
             fatalError("URL guard stmt failed")
         }
         URLSession.shared.dataTask(with: url) { [weak self] (data, response, error) in
@@ -68,13 +78,12 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         cell.titleLabel.text = newsObject.title
         cell.authorLabel.text = newsObject.author
         cell.descriptionLabel.text = newsObject.description
-        cell.urlLabel.text = newsObject.url
-        cell.urlToImageLabel.text = newsObject.urlToImage
+        cell.newsImageView.sd_setImage(with: URL(string: newsObject.urlToImage ?? ""), placeholderImage: UIImage(named: "placeholder.png"))
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         let news = newsArray[indexPath.row]
         print(news)
         guard let url = URL(string: news.url ?? "") else {

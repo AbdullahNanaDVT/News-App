@@ -13,13 +13,29 @@ import Foundation
 //}
 
 class NewsManager {
-    var newsArray: [NewsModel] = []
+    var newsArray = [NewsData]()
     private let baseUrlString = "https://newsapi.org/v2/"
     private let topHeadline = "top-headlines?country=sa"
     
     //var delegate: NewsManagerDelegate?
     
-    func fetchNews() {
+    func getNews() {
+        guard let url = URL(string: "https://newsapi.org/v2/top-headlines?country=sa&category=business&apiKey=c48088d2c6704e9692a00e6de346f105") else {
+            fatalError("URL guard stmt failed")
+        }
+        URLSession.shared.dataTask(with: url) { [weak self] (data, response, error) in
+            //HANDLE DECODING HERE
+            if let data = data {
+                guard let news = try? JSONDecoder().decode(NewsResults.self, from: data) else {
+                    fatalError("Error decoding data \(error!)")
+                }
+                let articles = news.articles
+                self?.newsArray = articles
+            }
+        }.resume()
+    }
+    
+   /* func fetchNews() {
         //let urlString = "\(baseUrlString)\(topHeadline)&apiKey=\(APIKey.key)"
         let urlString = "https://newsapi.org/v2/top-headlines?country=sa&category=business&apiKey=c48088d2c6704e9692a00e6de346f105"
         performRequest(with: urlString)
@@ -67,7 +83,7 @@ class NewsManager {
             //delegate?.didFailWithError(error: error)
             return nil
         }
-    }
+    } */
 }
 
 
