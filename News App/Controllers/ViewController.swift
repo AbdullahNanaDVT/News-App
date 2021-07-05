@@ -9,32 +9,33 @@ import UIKit
 import SafariServices
 import SDWebImage
 
-
 class ViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var newsLabel: UILabel!
     @IBOutlet weak var topHeadlinesLabel: UILabel!
     
-    //var newsManager = NewsManager()
-    
     var newsArray = [NewsData]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
         tableView.dataSource = self
         tableView.delegate = self
         
         getNews()
         
+        applyLabelStyling()
+        
+        tableView.register(UINib(nibName: "NewsCell", bundle: nil), forCellReuseIdentifier: "cell")
+        
+    }
+    
+    fileprivate func applyLabelStyling() {
         newsLabel.font = UIFont.boldSystemFont(ofSize: 32)
         
         topHeadlinesLabel.font = topHeadlinesLabel.font.withSize(32)
         topHeadlinesLabel.textColor = .gray
-        
-        tableView.register(UINib(nibName: "NewsCell", bundle: nil), forCellReuseIdentifier: "cell")
-        
     }
     
     func getNews() {
@@ -63,16 +64,15 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: UITableViewDataSource, UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return newsArray.count
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let newsObject = newsArray[indexPath.row]
-        //print(newsObject)
-
-
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! NewsCell
 
         cell.titleLabel.text = newsObject.title
@@ -85,7 +85,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let news = newsArray[indexPath.row]
-        print(news)
+        
         guard let url = URL(string: news.url ?? "") else {
             return
         }
@@ -96,22 +96,3 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         present(safariViewController, animated: true)
     }
 }
-
-//extension ViewController: NewsManagerDelegate {
-//    func didUpdateNews(_ newsManager: NewsManager, news: NewsModel) {
-//
-//        let newsCell = NewsCell()
-//        DispatchQueue.main.async {
-//            newsCell.titleLabel.text = news.title
-//            newsCell.authorLabel.text = news.author
-//            newsCell.descriptionLabel.text = news.description
-//            newsCell.urlLabel.text = news.url
-//            newsCell.urlToImageLabel.text = news.urlToImage
-//        }
-//        tableView.reloadData()
-//    }
-//
-//    func didFailWithError(error: Error) {
-//        print(error)
-//    }
-//}
