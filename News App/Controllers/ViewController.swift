@@ -27,8 +27,19 @@ class ViewController: UIViewController {
         
         applyLabelStyling()
         
+        refreshScreen()
+        
         tableView.register(UINib(nibName: "NewsCell", bundle: nil), forCellReuseIdentifier: "cell")
         
+    }
+    
+    private func refreshScreen() {
+        tableView.refreshControl = UIRefreshControl()
+        tableView.refreshControl?.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
+    }
+    
+    @objc private func didPullToRefresh() {
+        getNews()
     }
     
     fileprivate func applyLabelStyling() {
@@ -38,7 +49,16 @@ class ViewController: UIViewController {
         topHeadlinesLabel.textColor = .gray
     }
     
+    fileprivate func delayExecutionByMilliseconds(_ delay: Int, for anonFunc: @escaping () -> Void) {
+        let when = DispatchTime.now() + .milliseconds(delay)
+        DispatchQueue.main.asyncAfter(deadline: when, execute: anonFunc)
+    }
+    
     func getNews() {
+        
+        self.newsArray.removeAll()
+        self.tableView.reloadData()
+        
         let baseUrlString = "https://newsapi.org/v2/"
         let topHeadline = "top-headlines?country=sa"
         
@@ -57,10 +77,10 @@ class ViewController: UIViewController {
             }
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
+                self?.tableView.refreshControl?.endRefreshing()
             }
         }.resume()
     }
-
 }
 
 extension ViewController: UITableViewDataSource, UITableViewDelegate {
@@ -68,7 +88,6 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return newsArray.count
     }
-    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -96,3 +115,4 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         present(safariViewController, animated: true)
     }
 }
+
