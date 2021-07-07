@@ -15,7 +15,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var newsLabel: UILabel!
     @IBOutlet weak var topHeadlinesLabel: UILabel!
     
-    var newsArray = [NewsData]()
+    private var newsArray = [NewsData]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,19 +42,14 @@ class ViewController: UIViewController {
         getNews()
     }
     
-    fileprivate func applyLabelStyling() {
+    private func applyLabelStyling() {
         newsLabel.font = UIFont.boldSystemFont(ofSize: 32)
         
         topHeadlinesLabel.font = topHeadlinesLabel.font.withSize(32)
         topHeadlinesLabel.textColor = .gray
     }
     
-    fileprivate func delayExecutionByMilliseconds(_ delay: Int, for anonFunc: @escaping () -> Void) {
-        let when = DispatchTime.now() + .milliseconds(delay)
-        DispatchQueue.main.asyncAfter(deadline: when, execute: anonFunc)
-    }
-    
-    func getNews() {
+    private func getNews() {
         
         self.newsArray.removeAll()
         self.tableView.reloadData()
@@ -64,8 +59,9 @@ class ViewController: UIViewController {
         
         let urlString = "\(baseUrlString)\(topHeadline)&apiKey=\(APIKey.key)"
         guard let url = URL(string: urlString) else {
-            fatalError("URL guard stmt failed")
+            fatalError("Could not retrieve URL")
         }
+        
         URLSession.shared.dataTask(with: url) { [weak self] (data, response, error) in
             //HANDLE DECODING HERE
             if let data = data {
@@ -95,9 +91,8 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! NewsCell
 
         cell.titleLabel.text = newsObject.title
-        cell.authorLabel.text = newsObject.author
         cell.descriptionLabel.text = newsObject.description
-        cell.newsImageView.sd_setImage(with: URL(string: newsObject.urlToImage ?? ""), placeholderImage: UIImage(named: "placeholder.png"))
+        cell.newsImageView.sd_setImage(with: URL(string: newsObject.urlToImage ?? ""), placeholderImage: UIImage(named: "news.jpg"))
         
         return cell
     }
