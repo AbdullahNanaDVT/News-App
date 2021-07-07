@@ -17,6 +17,8 @@ class ViewController: UIViewController {
     
     private var newsArray = [NewsData]()
     
+    internal var countryCode = "za"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -43,7 +45,7 @@ class ViewController: UIViewController {
     }
     
     private func applyLabelStyling() {
-        newsLabel.font = UIFont.boldSystemFont(ofSize: 32)
+        newsLabel.font = UIFont.boldSystemFont(ofSize: 38)
         
         topHeadlinesLabel.font = topHeadlinesLabel.font.withSize(32)
         topHeadlinesLabel.textColor = .gray
@@ -55,7 +57,7 @@ class ViewController: UIViewController {
         self.tableView.reloadData()
         
         let baseUrlString = "https://newsapi.org/v2/"
-        let topHeadline = "top-headlines?country=sa"
+        let topHeadline = "top-headlines?country=\(countryCode)"
         
         let urlString = "\(baseUrlString)\(topHeadline)&apiKey=\(APIKey.key)"
         guard let url = URL(string: urlString) else {
@@ -63,7 +65,6 @@ class ViewController: UIViewController {
         }
         
         URLSession.shared.dataTask(with: url) { [weak self] (data, response, error) in
-            //HANDLE DECODING HERE
             if let data = data {
                 guard let news = try? JSONDecoder().decode(NewsResults.self, from: data) else {
                     fatalError("Error decoding data \(error!)")
