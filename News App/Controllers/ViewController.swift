@@ -13,12 +13,14 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var topHeadlinesLabel: UILabel!
+    @IBOutlet weak var navigationBar: UINavigationBar!
     
     private var newsArray = [NewsData]()
     
     internal var countryCode = "za"
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         
         tableView.dataSource = self
@@ -33,6 +35,10 @@ class ViewController: UIViewController {
         tableView.register(UINib(nibName: "NewsCell", bundle: nil), forCellReuseIdentifier: "cell")
         
     }
+    
+//    @IBAction func backButtonPressed(_ sender: Any) {
+//        performSegue(withIdentifier: "goBackToPreferance", sender: self)
+//    }
     
     private func refreshScreen() {
         tableView.refreshControl = UIRefreshControl()

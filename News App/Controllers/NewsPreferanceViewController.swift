@@ -12,7 +12,6 @@ class NewsPreferanceViewController: UIViewController {
     @IBOutlet weak var countryPicker: UIPickerView!
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var button: UIButton!
-    @IBOutlet weak var newsLabel: UILabel!
     
     private let countryArray = ["ae","ar","at","au","be","bg","br","ca","ch","cn",
                          "co","cu","cz","de","eg","fr","gb","gr","hk","hu",
@@ -41,7 +40,8 @@ class NewsPreferanceViewController: UIViewController {
         countryPicker.dataSource = self
         countryPicker.delegate = self
         
-        newsLabel.font = UIFont.boldSystemFont(ofSize: 38)
+        self.navigationController?.isNavigationBarHidden = true
+        button.layer.cornerRadius = 10
     }
     
     @IBAction func buttonPressed(_ sender: UIButton) {
