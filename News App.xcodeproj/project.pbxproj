@@ -175,7 +175,6 @@
 				27BDE033268D31BD000B2037 /* Main.storyboard */,
 				27BDE061268D33EF000B2037 /* NewsCell.swift */,
 				27BDE062268D33EF000B2037 /* NewsCell.xib */,
-				27BDE07E2695E017000B2037 /* NewsPreferanceViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -200,6 +199,7 @@
 		27BDE075268F48FB000B2037 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				27BDE07E2695E017000B2037 /* NewsPreferanceViewController.swift */,
 				27BDE031268D31BD000B2037 /* ViewController.swift */,
 			);
 			path = Controllers;

@@ -12,6 +12,7 @@ class NewsPreferanceViewController: UIViewController {
     @IBOutlet weak var countryPicker: UIPickerView!
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var button: UIButton!
+    @IBOutlet weak var newsLabel: UILabel!
     
     private let countryArray = ["ae","ar","at","au","be","bg","br","ca","ch","cn",
                          "co","cu","cz","de","eg","fr","gb","gr","hk","hu",
@@ -39,6 +40,8 @@ class NewsPreferanceViewController: UIViewController {
         
         countryPicker.dataSource = self
         countryPicker.delegate = self
+        
+        newsLabel.font = UIFont.boldSystemFont(ofSize: 38)
     }
     
     @IBAction func buttonPressed(_ sender: UIButton) {
@@ -63,7 +66,7 @@ extension NewsPreferanceViewController: UIPickerViewDataSource, UIPickerViewDele
       }
 
       func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-          rowNumber = row
+          rowNumber = row + 1
       }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

@@ -12,7 +12,6 @@ import SDWebImage
 class ViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var newsLabel: UILabel!
     @IBOutlet weak var topHeadlinesLabel: UILabel!
     
     private var newsArray = [NewsData]()
@@ -45,10 +44,7 @@ class ViewController: UIViewController {
     }
     
     private func applyLabelStyling() {
-        newsLabel.font = UIFont.boldSystemFont(ofSize: 38)
-        
-        topHeadlinesLabel.font = topHeadlinesLabel.font.withSize(32)
-        topHeadlinesLabel.textColor = .gray
+        topHeadlinesLabel.font = UIFont.boldSystemFont(ofSize: 26)
     }
     
     private func getNews() {

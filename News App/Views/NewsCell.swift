@@ -13,6 +13,7 @@ class NewsCell: UITableViewCell {
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var newsImageView: UIImageView!
     @IBOutlet weak var view: UIView!
+    @IBOutlet weak var imageStackView: UIStackView!
     
     private func applyCellStyling() {
         titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
@@ -20,11 +21,11 @@ class NewsCell: UITableViewCell {
         newsImageView.layer.cornerRadius = 20
         newsImageView.clipsToBounds = true
         
-        view.backgroundColor = .clear
-        view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOffset = CGSize(width: 5, height: 5)
-        view.layer.shadowOpacity = 0.7
-        view.layer.shadowRadius = 10.0
+        imageStackView.backgroundColor = .clear
+        imageStackView.layer.shadowColor = UIColor.black.cgColor
+        imageStackView.layer.shadowOffset = CGSize(width: 5, height: 5)
+        imageStackView.layer.shadowOpacity = 0.98
+        imageStackView.layer.shadowRadius = 9.0
     }
     
     override func awakeFromNib() {
