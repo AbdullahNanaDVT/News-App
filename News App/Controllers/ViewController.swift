@@ -12,8 +12,9 @@ import SDWebImage
 class ViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var topHeadlinesLabel: UILabel!
-    @IBOutlet weak var navigationBar: UINavigationBar!
+    @IBOutlet weak var backButton: UIButton!
+    @IBOutlet weak var searchLabel: UITextField!
+    @IBOutlet weak var searchButton: UIButton!
     
     private var newsArray = [NewsData]()
     
@@ -28,7 +29,7 @@ class ViewController: UIViewController {
         
         getNews()
         
-        applyLabelStyling()
+        applyStyling()
         
         refreshScreen()
         
@@ -36,9 +37,18 @@ class ViewController: UIViewController {
         
     }
     
-//    @IBAction func backButtonPressed(_ sender: Any) {
-//        performSegue(withIdentifier: "goBackToPreferance", sender: self)
-//    }
+    @IBAction func searchButtonPressed(_ sender: UIButton) {
+        searchLabel.endEditing(true)
+        if let title = searchLabel.text {
+            getNews(searchFor: title)
+        }
+        searchLabel.text = ""
+        refreshScreen()
+    }
+    
+    @IBAction func backButtonPressed(_ sender: Any) {
+        performSegue(withIdentifier: "goBackToPreferance", sender: self)
+    }
     
     private func refreshScreen() {
         tableView.refreshControl = UIRefreshControl()
@@ -49,19 +59,26 @@ class ViewController: UIViewController {
         getNews()
     }
     
-    private func applyLabelStyling() {
-        topHeadlinesLabel.font = UIFont.boldSystemFont(ofSize: 26)
+    private func applyStyling() {
+        tableView.backgroundColor = .clear
     }
     
-    private func getNews() {
+    private func getNews(searchFor searchString: String = "") {
         
         self.newsArray.removeAll()
         self.tableView.reloadData()
         
         let baseUrlString = "https://newsapi.org/v2/"
-        let topHeadline = "top-headlines?country=\(countryCode)"
+        let topHeadline = "top-headlines?"
         
-        let urlString = "\(baseUrlString)\(topHeadline)&apiKey=\(APIKey.key)"
+        var urlString = ""
+        
+        if searchString == "" {
+            urlString = "\(baseUrlString)\(topHeadline)country=\(countryCode)&apiKey=\(APIKey.key)"
+        } else {
+            urlString = "\(baseUrlString)\(topHeadline)q=\(searchString)&apiKey=\(APIKey.key)"
+        }
+        
         guard let url = URL(string: urlString) else {
             fatalError("Could not retrieve URL")
         }
@@ -96,6 +113,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         cell.titleLabel.text = newsObject.title
         cell.descriptionLabel.text = newsObject.description
         cell.newsImageView.sd_setImage(with: URL(string: newsObject.urlToImage ?? ""), placeholderImage: UIImage(named: "news.jpg"))
+        cell.backgroundColor = .clear
         
         return cell
     }
@@ -111,6 +129,31 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         let safariViewController = SFSafariViewController(url: url, configuration: config)
         safariViewController.modalPresentationStyle = .fullScreen
         present(safariViewController, animated: true)
+    }
+}
+
+extension ViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        searchLabel.endEditing(true)
+        return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if let title = searchLabel.text {
+            getNews(searchFor: title)
+        }
+        searchLabel.text = ""
+    }
+    
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        if textField.text != "" {
+            return true
+        } else {
+            textField.placeholder = "Please type something"
+            return false
+        }
     }
 }
 

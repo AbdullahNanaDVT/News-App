@@ -16,7 +16,6 @@ class NewsCell: UITableViewCell {
     @IBOutlet weak var imageStackView: UIStackView!
     
     private func applyCellStyling() {
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
         
         newsImageView.layer.cornerRadius = 20
         newsImageView.clipsToBounds = true

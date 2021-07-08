@@ -16,9 +16,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="News" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L9q-fT-PIX">
-                                <rect key="frame" x="58" y="375" width="298.5" height="146"/>
-                                <fontDescription key="fontDescription" name="CourierNewPSMT" family="Courier New" pointSize="120"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="The Rough Times" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L9q-fT-PIX">
+                                <rect key="frame" x="29" y="99" width="357" height="646"/>
+                                <fontDescription key="fontDescription" name="CourierNewPSMT" family="Courier New" pointSize="110"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                                 <color key="shadowColor" systemColor="systemTealColor"/>
@@ -28,8 +28,9 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="L9q-fT-PIX" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="LSY-Fg-Lyx"/>
-                            <constraint firstItem="L9q-fT-PIX" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="UbJ-pn-Xnn"/>
+                            <constraint firstItem="L9q-fT-PIX" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="29" id="8wv-ej-Dbm"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="L9q-fT-PIX" secondAttribute="trailing" constant="28" id="Cw9-Fb-BPH"/>
+                            <constraint firstItem="L9q-fT-PIX" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="-26" id="oNr-mr-kfD"/>
                         </constraints>
                     </view>
                 </viewController>
