@@ -114,6 +114,8 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         cell.descriptionLabel.text = newsObject.description
         cell.newsImageView.sd_setImage(with: URL(string: newsObject.urlToImage ?? ""), placeholderImage: UIImage(named: "news.jpg"))
         cell.backgroundColor = .clear
+        cell.accessoryType = .disclosureIndicator
+        cell.selectionStyle = .none
         
         return cell
     }
@@ -127,7 +129,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         
         let config = SFSafariViewController.Configuration()
         let safariViewController = SFSafariViewController(url: url, configuration: config)
-        safariViewController.modalPresentationStyle = .fullScreen
+        safariViewController.modalPresentationStyle = .overFullScreen
         present(safariViewController, animated: true)
     }
 }
