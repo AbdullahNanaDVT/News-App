@@ -11,42 +11,36 @@ import SDWebImage
 
 class ViewController: UIViewController {
 
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var backButton: UIButton!
-    @IBOutlet weak var searchLabel: UITextField!
-    @IBOutlet weak var searchButton: UIButton!
+    @IBOutlet private weak var tableView: UITableView!
+    @IBOutlet private weak var backButton: UIButton!
+    @IBOutlet private weak var searchLabel: UITextField!
+    @IBOutlet private weak var searchButton: UIButton!
     
     private var newsArray = [NewsData]()
-    
     internal var countryCode = "za"
     
     override func viewDidLoad() {
-        
         super.viewDidLoad()
         
         tableView.dataSource = self
         tableView.delegate = self
-        
-        getNews()
-        
-        applyStyling()
-        
-        refreshScreen()
-        
         tableView.register(UINib(nibName: "NewsCell", bundle: nil), forCellReuseIdentifier: "cell")
         
+        getNewsData()
+        applyStyling()
+        refreshScreen()
     }
     
-    @IBAction func searchButtonPressed(_ sender: UIButton) {
+    @IBAction private func searchButtonPressed(_ sender: UIButton) {
         searchLabel.endEditing(true)
         if let title = searchLabel.text {
-            getNews(searchFor: title)
+            getNewsData(searchFor: title)
         }
         searchLabel.text = ""
         refreshScreen()
     }
     
-    @IBAction func backButtonPressed(_ sender: Any) {
+    @IBAction private func backButtonPressed(_ sender: Any) {
         performSegue(withIdentifier: "goBackToPreferance", sender: self)
     }
     
@@ -56,14 +50,14 @@ class ViewController: UIViewController {
     }
     
     @objc private func didPullToRefresh() {
-        getNews()
+        getNewsData()
     }
     
     private func applyStyling() {
         tableView.backgroundColor = .clear
     }
     
-    private func getNews(searchFor searchString: String = "") {
+    private func getNewsData(searchFor searchString: String = "") {
         
         self.newsArray.removeAll()
         self.tableView.reloadData()
@@ -144,7 +138,7 @@ extension ViewController: UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         if let title = searchLabel.text {
-            getNews(searchFor: title)
+            getNewsData(searchFor: title)
         }
         searchLabel.text = ""
     }

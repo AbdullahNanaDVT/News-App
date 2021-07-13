@@ -9,9 +9,9 @@ import UIKit
 
 class NewsPreferanceViewController: UIViewController {
     
-    @IBOutlet weak var countryPicker: UIPickerView!
-    @IBOutlet weak var label: UILabel!
-    @IBOutlet weak var button: UIButton!
+    @IBOutlet private weak var countryPicker: UIPickerView!
+    @IBOutlet private weak var label: UILabel!
+    @IBOutlet private weak var button: UIButton!
     
     private let countryArray = ["ae","ar","at","au","be","bg","br","ca","ch","cn",
                          "co","cu","cz","de","eg","fr","gb","gr","hk","hu",
@@ -44,7 +44,7 @@ class NewsPreferanceViewController: UIViewController {
         button.layer.cornerRadius = 10
     }
     
-    @IBAction func buttonPressed(_ sender: UIButton) {
+    @IBAction private func buttonPressed(_ sender: UIButton) {
         performSegue(withIdentifier: "goToNews", sender: self)
     }
     
