@@ -104,6 +104,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		277E950D269EF11C003DFB72 /* View Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "View Models";
+			sourceTree = "<group>";
+		};
 		27BDE021268D31BD000B2037 = {
 			isa = PBXGroup;
 			children = (
@@ -129,12 +136,12 @@
 		27BDE02C268D31BD000B2037 /* News App */ = {
 			isa = PBXGroup;
 			children = (
+				277E950D269EF11C003DFB72 /* View Models */,
 				27BDE036268D31BE000B2037 /* Assets.xcassets */,
 				27BDE07C269377F2000B2037 /* News App.entitlements */,
 				27BDE071268F487D000B2037 /* Delegates */,
 				27BDE074268F48E1000B2037 /* Model */,
 				27BDE072268F4894000B2037 /* Views */,
-				27BDE075268F48FB000B2037 /* Controllers */,
 				27BDE073268F48B3000B2037 /* API */,
 				27BDE03B268D31BE000B2037 /* Info.plist */,
 			);
@@ -175,6 +182,8 @@
 				27BDE033268D31BD000B2037 /* Main.storyboard */,
 				27BDE061268D33EF000B2037 /* NewsCell.swift */,
 				27BDE062268D33EF000B2037 /* NewsCell.xib */,
+				27BDE07E2695E017000B2037 /* NewsPreferanceViewController.swift */,
+				27BDE031268D31BD000B2037 /* ViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -194,15 +203,6 @@
 				27BDE069268DC7A8000B2037 /* NewsModel.swift */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		27BDE075268F48FB000B2037 /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				27BDE07E2695E017000B2037 /* NewsPreferanceViewController.swift */,
-				27BDE031268D31BD000B2037 /* ViewController.swift */,
-			);
-			path = Controllers;
 			sourceTree = "<group>";
 		};
 		884F79E9E37F4F5DBC02566C /* Frameworks */ = {
