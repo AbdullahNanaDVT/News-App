@@ -12,35 +12,19 @@ class NewsPreferanceViewController: UIViewController {
     @IBOutlet private weak var countryPicker: UIPickerView!
     @IBOutlet private weak var label: UILabel!
     @IBOutlet private weak var button: UIButton!
-    
-    private let countryArray = ["ae","ar","at","au","be","bg","br","ca","ch","cn",
-                         "co","cu","cz","de","eg","fr","gb","gr","hk","hu",
-                         "id","ie","in","it","jp","kr","lt","lv","ma",
-                         "mx","my","ng","nl","no","nz","ph","pl","pt","ro",
-                         "rs","ru","sa","se","sg","si","sk","th","tr","tw",
-                         "ua","us","ve","za"]
-    
-    private let countryNameArray = ["United Arab Emirates", "Argentina", "Austria", "Australia", "Belgium", "Bulgaria",
-                            "Brazil", "Canada", "Switzerland", "China",
-                            "Colombia", "Cuba", "Czech Republic", "Germany", "Egyp", "France" ,"Great Britain",
-                            "Greece", "Honk Kong", "Hungary",
-                            "Indonesia", "Ireland", "India", "Italy", "Japan" , "South Korea",
-                            "Lithuania", "Latvia", "Marocco",
-                            "Mexico", "Malaysia", "Nigeria", "Netherlands", "Norway", "New Zealand", "Philippines",
-                            "Poland", "Portugal", "Romania",
-                            "Serbia", "Russia", "Saudi Arabia" , "Sweden", "Singapore", "Slovenia", "Slovakia",
-                            "Thailand", "Turkey", "Taiwan",
-                            "Ukraine", "USA", "Venezuela", "South Africa"]
+    private var countryNamePropertyListArray: NSArray? = nil
+    private var countryCodePropertyListArray: NSArray? = nil
+    private var countryNameArray: [String] = []
+    private var countryCodeArray: [String] = []
     
     private var rowNumber: Int = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         countryPicker.dataSource = self
         countryPicker.delegate = self
-        
-        self.navigationController?.isNavigationBarHidden = true
+        fillCountryNames()
         button.layer.cornerRadius = 10
     }
     
@@ -48,6 +32,15 @@ class NewsPreferanceViewController: UIViewController {
         performSegue(withIdentifier: "goToNews", sender: self)
     }
     
+    private func fillCountryNames() {
+        if let countryNamePath = Bundle.main.path(forResource: "Countries", ofType: "plist"),
+           let countryCodePath = Bundle.main.path(forResource: "CountryCodes", ofType: "plist"){
+            countryNamePropertyListArray = NSArray(contentsOfFile: countryNamePath)
+            countryCodePropertyListArray = NSArray(contentsOfFile: countryCodePath)
+            countryNameArray = countryNamePropertyListArray as! [String]
+            countryCodeArray = countryCodePropertyListArray as! [String]
+        }
+    }
 }
 
 //MARK: - UIPickerView DataSource & Delegate
@@ -60,9 +53,9 @@ extension NewsPreferanceViewController: UIPickerViewDataSource, UIPickerViewDele
       func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
           return countryNameArray.count
       }
-
-      func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-          return countryNameArray[row]
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return countryNameArray[row]
       }
 
       func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
@@ -71,8 +64,7 @@ extension NewsPreferanceViewController: UIPickerViewDataSource, UIPickerViewDele
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goToNews" {
-            let destinationVC = segue.destination as! ViewController
-            destinationVC.countryCode = countryArray[rowNumber]
+            let _ = segue.destination as! ViewController
         }
     }
 }

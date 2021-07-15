@@ -9,118 +9,99 @@ import UIKit
 import SafariServices
 import SDWebImage
 
-class ViewController: UIViewController {
-
-    @IBOutlet private weak var tableView: UITableView!
-    @IBOutlet private weak var backButton: UIButton!
-    @IBOutlet private weak var searchLabel: UITextField!
-    @IBOutlet private weak var searchButton: UIButton!
+class ViewController: UITableViewController, NewsManagerDelegate {
     
-    private var newsArray = [NewsData]()
-    internal var countryCode = "za"
+    
+    @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var chooseCountryButton: UIBarButtonItem!
+    
+    private var viewModel = NewsListViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.dataSource = self
         tableView.delegate = self
+        tableView.dataSource = self
+        searchBar.delegate = self
+    
         tableView.register(UINib(nibName: "NewsCell", bundle: nil), forCellReuseIdentifier: "cell")
-        
-        getNewsData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        validateCountryCode()
+        updateNews(countryCode:viewModel.countryCode!)
         applyStyling()
         refreshScreen()
     }
-    
-    @IBAction private func searchButtonPressed(_ sender: UIButton) {
-        searchLabel.endEditing(true)
-        if let title = searchLabel.text {
-            getNewsData(searchFor: title)
-        }
-        searchLabel.text = ""
-        refreshScreen()
+
+    @IBAction func didPressChooseCountryButton(_ sender: UIBarButtonItem) {
+        performSegue(withIdentifier: "goToPreferance", sender: self)
     }
-    
-    @IBAction private func backButtonPressed(_ sender: Any) {
-        performSegue(withIdentifier: "goBackToPreferance", sender: self)
-    }
-    
+
     private func refreshScreen() {
         tableView.refreshControl = UIRefreshControl()
         tableView.refreshControl?.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
     }
     
     @objc private func didPullToRefresh() {
-        getNewsData()
+        updateNews()
+        self.tableView.reloadData()
+        tableView.refreshControl?.endRefreshing()
     }
     
     private func applyStyling() {
         tableView.backgroundColor = .clear
+        searchBar.backgroundColor = .clear
+        self.tableView.backgroundView = UIImageView(image: UIImage(named: "background")!)
+        searchBar.backgroundColor = .clear
     }
     
-    private func getNewsData(searchFor searchString: String = "") {
-        
-        self.newsArray.removeAll()
-        self.tableView.reloadData()
-        
-        let baseUrlString = "https://newsapi.org/v2/"
-        let topHeadline = "top-headlines?"
-        
-        var urlString = ""
-        
-        if searchString == "" {
-            urlString = "\(baseUrlString)\(topHeadline)country=\(countryCode)&apiKey=\(APIKey.key)"
-        } else {
-            urlString = "\(baseUrlString)\(topHeadline)q=\(searchString)&apiKey=\(APIKey.key)"
+    private func validateCountryCode() {
+        if viewModel.countryCode == nil {
+            viewModel.countryCode = "za"
         }
-        
-        guard let url = URL(string: urlString) else {
-            fatalError("Could not retrieve URL")
-        }
-        
-        URLSession.shared.dataTask(with: url) { [weak self] (data, response, error) in
-            if let data = data {
-                guard let news = try? JSONDecoder().decode(NewsResults.self, from: data) else {
-                    fatalError("Error decoding data \(error!)")
-                }
-                let articles = news.articles
-                self?.newsArray = articles
-            }
+    }
+
+    internal func updateNews(searchString: String = "", countryCode: String = "") {
+        viewModel.loadNewsData(searchString: searchString, countryCode: countryCode) { (_) in
             DispatchQueue.main.async {
-                self?.tableView.reloadData()
-                self?.tableView.refreshControl?.endRefreshing()
+                self.tableView.reloadData()
             }
-        }.resume()
+        }
+    }
+    
+    internal func didFailWithError(error: Error) {
+        print(error)
     }
 }
 
-extension ViewController: UITableViewDataSource, UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return newsArray.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let newsObject = newsArray[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! NewsCell
+extension ViewController {
 
-        cell.titleLabel.text = newsObject.title
-        cell.descriptionLabel.text = newsObject.description
-        cell.newsImageView.sd_setImage(with: URL(string: newsObject.urlToImage ?? ""), placeholderImage: UIImage(named: "news.jpg"))
-        cell.backgroundColor = .clear
-        cell.accessoryType = .disclosureIndicator
-        cell.selectionStyle = .none
-        
-        return cell
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.newsArray.count
     }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let news = newsArray[indexPath.row]
+
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let url = URL(string: news.url ?? "") else {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? NewsCell
+        let newsObject = viewModel.newsArray[indexPath.row]
+        cell?.titleLabel.text = newsObject.title
+        cell?.descriptionLabel.text = newsObject.description
+        cell?.newsImageView.sd_setImage(with: URL(string: newsObject.urlToImage), placeholderImage: UIImage(named: "news.jpg"))
+        cell?.backgroundColor = .clear
+        cell?.accessoryType = .disclosureIndicator
+        cell?.selectionStyle = .none
+        searchBar.backgroundColor = .clear
+        return cell ?? UITableViewCell()
+    }
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let news = viewModel.newsArray[indexPath.row]
+        
+        guard let url = URL(string: news.url ) else {
             return
         }
-        
+
         let config = SFSafariViewController.Configuration()
         let safariViewController = SFSafariViewController(url: url, configuration: config)
         safariViewController.modalPresentationStyle = .overFullScreen
@@ -128,28 +109,45 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-extension ViewController: UITextFieldDelegate {
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        
-        searchLabel.endEditing(true)
-        return true
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        if let title = searchLabel.text {
-            getNewsData(searchFor: title)
+extension ViewController: UISearchBarDelegate {
+
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        if let title = searchBar.text {
+            updateNews(searchString: title)
         }
-        searchLabel.text = ""
+        searchBar.text = ""
     }
-    
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        if textField.text != "" {
+
+    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
+        if searchBar.text != "" {
             return true
         } else {
-            textField.placeholder = "Please type something"
+            searchBar.placeholder = "Please type something"
             return false
         }
     }
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+
+        if let title = searchBar.text {
+            updateNews(searchString: title)
+        }
+        searchBar.text = ""
+        tableView.reloadData()
+    }
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+
+        if searchBar.text?.count == 0 {
+            updateNews(searchString: searchText)
+
+            DispatchQueue.main.async {
+                searchBar.resignFirstResponder()
+            }
+        }
+    }
 }
+
+
+
 
