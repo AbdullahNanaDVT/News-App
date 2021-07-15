@@ -6,32 +6,22 @@
 //
 
 import Foundation
-import CoreLocation
 
 protocol NewsManagerDelegate {
     func updateNews(searchString: String, countryCode: String)
     func didFailWithError(error: Error)
 }
 
-class NewsManager: CLLocationManager {
-    
+class NewsManager {
     static let shared = NewsManager()
     private var newsDelegate: NewsManagerDelegate?
-    private let locationManager = CLLocationManager()
-    private var country = NSLocale.current.regionCode
-    
     
     private let baseUrlString = "https://newsapi.org/v2/"
     private let topHeadline = "top-headlines?country=sa"
     
     func loadNewsData(searchString: String = "", countryCode:String = "", completion: @escaping ([NewsData]?) -> Void) {
-
         let baseUrlString = "https://newsapi.org/v2/"
         let topHeadline = "top-headlines?"
-        //countryCode = country?.lowercased() ?? "ae"
-        
-        //let urlString = "\(baseUrlString)\(topHeadline)country=za&apiKey=\(APIKey.key)"
-
         var urlString = "\(baseUrlString)\(topHeadline)country=\(countryCode)&apiKey=\(APIKey.key)"
 
         if searchString == "" {
@@ -51,7 +41,6 @@ class NewsManager: CLLocationManager {
             }
             let newsResult = try? JSONDecoder().decode(NewsResults.self, from: data)
             newsResult == nil ? completion(nil) : completion(newsResult!.articles)
-            self.newsDelegate?.updateNews(searchString: searchString, countryCode: countryCode)
         }.resume()
     }
 }

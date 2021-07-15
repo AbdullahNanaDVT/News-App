@@ -12,11 +12,14 @@ class NewsPreferanceViewController: UIViewController {
     @IBOutlet private weak var countryPicker: UIPickerView!
     @IBOutlet private weak var label: UILabel!
     @IBOutlet private weak var button: UIButton!
+    
+    private var viewModel = NewsListViewModel()
     private var countryNamePropertyListArray: NSArray? = nil
     private var countryCodePropertyListArray: NSArray? = nil
     private var countryNameArray: [String] = []
     private var countryCodeArray: [String] = []
-    
+    private var buttomPressed = false
+    internal var location = NSLocale.current.regionCode?.lowercased()
     private var rowNumber: Int = 0
 
     override func viewDidLoad() {
@@ -29,6 +32,7 @@ class NewsPreferanceViewController: UIViewController {
     }
     
     @IBAction private func buttonPressed(_ sender: UIButton) {
+        buttomPressed = true
         performSegue(withIdentifier: "goToNews", sender: self)
     }
     
@@ -47,24 +51,25 @@ class NewsPreferanceViewController: UIViewController {
 extension NewsPreferanceViewController: UIPickerViewDataSource, UIPickerViewDelegate {
 
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-          return 1
+        1
       }
 
       func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-          return countryNameArray.count
+          countryNameArray.count
       }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return countryNameArray[row]
+        countryNameArray[row]
       }
 
       func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-          rowNumber = row
+        rowNumber = row
       }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goToNews" {
-            let _ = segue.destination as! ViewController
+            let destinationVC = segue.destination as! ViewController
+            destinationVC.countryCode = countryCodeArray[rowNumber]
         }
     }
 }

@@ -15,6 +15,7 @@ class ViewController: UITableViewController, NewsManagerDelegate {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var chooseCountryButton: UIBarButtonItem!
     
+    internal var countryCode = NSLocale.current.regionCode?.lowercased()
     private var viewModel = NewsListViewModel()
     
     override func viewDidLoad() {
@@ -23,13 +24,12 @@ class ViewController: UITableViewController, NewsManagerDelegate {
         tableView.delegate = self
         tableView.dataSource = self
         searchBar.delegate = self
-    
         tableView.register(UINib(nibName: "NewsCell", bundle: nil), forCellReuseIdentifier: "cell")
     }
     
     override func viewWillAppear(_ animated: Bool) {
         validateCountryCode()
-        updateNews(countryCode:viewModel.countryCode!)
+        updateNews(countryCode: countryCode!)
         applyStyling()
         refreshScreen()
     }
@@ -50,6 +50,8 @@ class ViewController: UITableViewController, NewsManagerDelegate {
     }
     
     private func applyStyling() {
+        navigationItem.hidesBackButton = false
+        navigationController?.navigationBar.barTintColor = UIColor(named: "barColor")
         tableView.backgroundColor = .clear
         searchBar.backgroundColor = .clear
         self.tableView.backgroundView = UIImageView(image: UIImage(named: "background")!)
@@ -57,8 +59,8 @@ class ViewController: UITableViewController, NewsManagerDelegate {
     }
     
     private func validateCountryCode() {
-        if viewModel.countryCode == nil {
-            viewModel.countryCode = "za"
+        if countryCode == nil {
+            countryCode = "za"
         }
     }
 

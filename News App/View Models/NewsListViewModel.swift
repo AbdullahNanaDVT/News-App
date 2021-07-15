@@ -7,8 +7,7 @@
 import Foundation
 
 class NewsListViewModel {
-    var newsArray = [NewsViewModel]()
-    internal var countryCode = NSLocale.current.regionCode?.lowercased()
+    internal var newsArray = [NewsViewModel]()
     
     func loadNewsData(searchString: String = "", countryCode:String = "", completion: @escaping ([NewsViewModel]) -> Void) {
         NewsManager.shared.loadNewsData(searchString: searchString, countryCode: countryCode) { (news) in
