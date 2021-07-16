@@ -18,8 +18,6 @@ class NewsPreferanceViewController: UIViewController {
     private var countryCodePropertyListArray: NSArray? = nil
     private var countryNameArray: [String] = []
     private var countryCodeArray: [String] = []
-    private var buttomPressed = false
-    internal var location = NSLocale.current.regionCode?.lowercased()
     private var rowNumber: Int = 0
 
     override func viewDidLoad() {
@@ -29,10 +27,11 @@ class NewsPreferanceViewController: UIViewController {
         countryPicker.delegate = self
         fillCountryNames()
         button.layer.cornerRadius = 10
+        
+        navigationItem.hidesBackButton = false
     }
     
     @IBAction private func buttonPressed(_ sender: UIButton) {
-        buttomPressed = true
         performSegue(withIdentifier: "goToNews", sender: self)
     }
     

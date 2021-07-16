@@ -17,6 +17,7 @@ class ViewController: UITableViewController, NewsManagerDelegate {
     
     internal var countryCode = NSLocale.current.regionCode?.lowercased()
     private var viewModel = NewsListViewModel()
+    private let newManager = NewsManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -116,6 +117,7 @@ extension ViewController: UISearchBarDelegate {
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         if let title = searchBar.text {
             updateNews(searchString: title)
+            checkResults()
         }
         searchBar.text = ""
     }
@@ -129,12 +131,25 @@ extension ViewController: UISearchBarDelegate {
         }
     }
 
+    private func checkResults() {
+        if newManager.totalResults == 0 {
+            let alert = UIAlertController(title: "No Results", message: "No articles matches your search. Please try again.", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+            tableView.reloadData()
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
 
         if let title = searchBar.text {
             updateNews(searchString: title)
+            checkResults()
         }
         searchBar.text = ""
+        DispatchQueue.main.async {
+            searchBar.resignFirstResponder()
+        }
         tableView.reloadData()
     }
 
@@ -142,6 +157,7 @@ extension ViewController: UISearchBarDelegate {
 
         if searchBar.text?.count == 0 {
             updateNews(searchString: searchText)
+            checkResults()
 
             DispatchQueue.main.async {
                 searchBar.resignFirstResponder()

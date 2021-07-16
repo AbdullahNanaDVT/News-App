@@ -15,9 +15,7 @@ protocol NewsManagerDelegate {
 class NewsManager {
     static let shared = NewsManager()
     private var newsDelegate: NewsManagerDelegate?
-    
-    private let baseUrlString = "https://newsapi.org/v2/"
-    private let topHeadline = "top-headlines?country=sa"
+    internal var totalResults = 0
     
     func loadNewsData(searchString: String = "", countryCode:String = "", completion: @escaping ([NewsData]?) -> Void) {
         let baseUrlString = "https://newsapi.org/v2/"
@@ -40,6 +38,7 @@ class NewsManager {
                 return
             }
             let newsResult = try? JSONDecoder().decode(NewsResults.self, from: data)
+            self.totalResults = newsResult?.totalResults ?? 0
             newsResult == nil ? completion(nil) : completion(newsResult!.articles)
         }.resume()
     }
