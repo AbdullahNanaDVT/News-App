@@ -4,7 +4,6 @@
 //
 //  Created by Abdullah Nana on 2021/07/01.
 //
-
 import UIKit
 import SafariServices
 import SDWebImage
@@ -13,9 +12,14 @@ class ViewController: UITableViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var chooseCountryButton: UIBarButtonItem!
     
-    internal var countryCode = NSLocale.current.regionCode?.lowercased()
-    private var viewModel = NewsListViewModel()
-    private let newManager = NewsManager()
+    private let viewModel = NewsListViewModel()
+    private let newsManager = NewsManager()
+    internal var countryCode = ""
+    
+    override func loadView() {
+        super.loadView()
+        updateNews(countryCode: countryCode)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,8 +31,7 @@ class ViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        validateCountryCode()
-        updateNews(countryCode: countryCode!)
+        viewModel.validateCountryCode()
         applyStyling()
         refreshScreen()
     }
@@ -36,16 +39,16 @@ class ViewController: UITableViewController {
     @IBAction func didPressChooseCountryButton(_ sender: UIBarButtonItem) {
         performSegue(withIdentifier: "goToPreferance", sender: self)
     }
-
-    private func refreshScreen() {
-        tableView.refreshControl = UIRefreshControl()
-        tableView.refreshControl?.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
-    }
     
     @objc private func didPullToRefresh() {
         updateNews()
         self.tableView.reloadData()
         tableView.refreshControl?.endRefreshing()
+    }
+
+    private func refreshScreen() {
+        tableView.refreshControl = UIRefreshControl()
+        tableView.refreshControl?.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
     }
     
     private func applyStyling() {
@@ -56,14 +59,8 @@ class ViewController: UITableViewController {
         self.tableView.backgroundView = UIImageView(image: UIImage(named: "background")!)
         searchBar.backgroundColor = .clear
     }
-    
-    private func validateCountryCode() {
-        if countryCode == nil {
-            countryCode = "za"
-        }
-    }
 
-    internal func updateNews(searchString: String = "", countryCode: String = "") {
+    private func updateNews(searchString: String = "", countryCode: String = "") {
         viewModel.loadNewsData(searchString: searchString, countryCode: countryCode) { (_) in
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -79,13 +76,13 @@ class ViewController: UITableViewController {
 extension ViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.newsArray.count
+        viewModel.getNumberOfNewsResults()
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? NewsCell
-        let newsObject = viewModel.newsArray[indexPath.row]
+        let newsObject = viewModel.getNewsResults()[indexPath.row]
         cell?.titleLabel.text = newsObject.title
         cell?.descriptionLabel.text = newsObject.description
         cell?.newsImageView.sd_setImage(with: URL(string: newsObject.urlToImage), placeholderImage: UIImage(named: "news.jpg"))
@@ -97,7 +94,7 @@ extension ViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let news = viewModel.newsArray[indexPath.row]
+        let news = viewModel.getNewsResults()[indexPath.row]
         
         guard let url = URL(string: news.url ) else {
             return
@@ -115,7 +112,7 @@ extension ViewController: UISearchBarDelegate {
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         if let title = searchBar.text {
             updateNews(searchString: title)
-            checkResults()
+            showAlert()
         }
         searchBar.text = ""
     }
@@ -129,13 +126,12 @@ extension ViewController: UISearchBarDelegate {
         }
     }
 
-    private func checkResults() {
-        if newManager.totalResults == 0 {
+    internal func showAlert() {
+        if newsManager.totalResults == 0 {
             let alert = UIAlertController(title: "No Results",
                                           message: "No articles matches your search. Please try again.",
                                           preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
-            tableView.reloadData()
             self.present(alert, animated: true, completion: nil)
         }
     }
@@ -144,7 +140,7 @@ extension ViewController: UISearchBarDelegate {
 
         if let title = searchBar.text {
             updateNews(searchString: title)
-            checkResults()
+            showAlert()
         }
         searchBar.text = ""
         DispatchQueue.main.async {
@@ -157,7 +153,7 @@ extension ViewController: UISearchBarDelegate {
 
         if (searchBar.text?.isEmpty) != nil {
             updateNews(searchString: searchText)
-            checkResults()
+            showAlert()
 
             DispatchQueue.main.async {
                 searchBar.resignFirstResponder()
