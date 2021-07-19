@@ -59,49 +59,46 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="6sN-WD-WS2">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </imageView>
-                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AVW-AB-gbc">
-                                <rect key="frame" x="47" y="340" width="320" height="216"/>
-                            </pickerView>
-                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hQL-L2-QHs">
-                                <rect key="frame" x="167" y="605" width="80" height="36"/>
-                                <color key="backgroundColor" red="0.59267967939999999" green="0.81616425510000001" blue="0.8339689374" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="xem-Ly-qMp"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="20"/>
-                                <state key="normal" title="Done">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="buttonPressed:" destination="rxS-m7-XQb" eventType="touchUpInside" id="iHB-k9-gCy"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please select your country" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vww-Cc-DyW">
-                                <rect key="frame" x="78" y="221.66666666666666" width="258" height="23.333333333333343"/>
+                                <rect key="frame" x="78" y="62.000000000000007" width="258" height="23.333333333333336"/>
                                 <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="oKj-EV-z4v">
+                                <rect key="frame" x="78" y="166" width="268" height="370"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="newsCell" id="jdD-7A-sQN">
+                                        <rect key="frame" x="0.0" y="24.333333969116211" width="268" height="43.666667938232422"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jdD-7A-sQN" id="5pz-70-qkd">
+                                            <rect key="frame" x="0.0" y="0.0" width="268" height="43.666667938232422"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="jzf-BC-Nl9"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="6sN-WD-WS2" secondAttribute="bottom" id="1dJ-YA-Sh3"/>
                             <constraint firstItem="6sN-WD-WS2" firstAttribute="trailing" secondItem="jzf-BC-Nl9" secondAttribute="trailing" id="43J-7k-VKl"/>
-                            <constraint firstItem="hQL-L2-QHs" firstAttribute="centerX" secondItem="lhv-YU-jrO" secondAttribute="centerX" id="5Hp-OO-DwZ"/>
-                            <constraint firstItem="hQL-L2-QHs" firstAttribute="top" secondItem="AVW-AB-gbc" secondAttribute="bottom" constant="49" id="9XT-is-vTr"/>
+                            <constraint firstItem="oKj-EV-z4v" firstAttribute="centerX" secondItem="lhv-YU-jrO" secondAttribute="centerX" constant="5" id="6Si-uV-KLl"/>
                             <constraint firstItem="6sN-WD-WS2" firstAttribute="top" secondItem="lhv-YU-jrO" secondAttribute="top" id="9w2-iy-5v3"/>
-                            <constraint firstItem="AVW-AB-gbc" firstAttribute="top" secondItem="vww-Cc-DyW" secondAttribute="bottom" constant="95" id="A63-5p-LoR"/>
-                            <constraint firstItem="AVW-AB-gbc" firstAttribute="centerY" secondItem="lhv-YU-jrO" secondAttribute="centerY" id="AX3-t3-ian"/>
+                            <constraint firstItem="jzf-BC-Nl9" firstAttribute="bottom" secondItem="oKj-EV-z4v" secondAttribute="bottom" constant="326" id="AkI-ud-XwQ"/>
+                            <constraint firstItem="oKj-EV-z4v" firstAttribute="leading" secondItem="jzf-BC-Nl9" secondAttribute="leading" constant="78" id="HOv-7T-tt4"/>
+                            <constraint firstItem="oKj-EV-z4v" firstAttribute="centerY" secondItem="lhv-YU-jrO" secondAttribute="centerY" constant="-97" id="JcN-I3-Cs6"/>
                             <constraint firstItem="6sN-WD-WS2" firstAttribute="leading" secondItem="jzf-BC-Nl9" secondAttribute="leading" id="hq6-cs-7YL"/>
-                            <constraint firstItem="AVW-AB-gbc" firstAttribute="centerX" secondItem="lhv-YU-jrO" secondAttribute="centerX" id="w73-C6-US7"/>
+                            <constraint firstItem="vww-Cc-DyW" firstAttribute="centerX" secondItem="lhv-YU-jrO" secondAttribute="centerX" id="pqZ-gV-wcw"/>
+                            <constraint firstItem="oKj-EV-z4v" firstAttribute="top" secondItem="vww-Cc-DyW" secondAttribute="bottom" constant="80.666666666666657" id="rZf-Jd-MQU"/>
                             <constraint firstItem="vww-Cc-DyW" firstAttribute="centerX" secondItem="lhv-YU-jrO" secondAttribute="centerX" id="z3e-1Z-Ray"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="xnw-ly-zGs"/>
                     <connections>
-                        <outlet property="button" destination="hQL-L2-QHs" id="A29-SK-Zaj"/>
-                        <outlet property="countryPicker" destination="AVW-AB-gbc" id="1lM-VU-jLs"/>
                         <outlet property="label" destination="vww-Cc-DyW" id="bSc-yA-Bwv"/>
+                        <outlet property="tableView" destination="oKj-EV-z4v" id="YLF-nU-bJA"/>
                         <segue destination="liY-jY-BAE" kind="presentation" identifier="goToNews" id="Znb-bE-6eu"/>
                     </connections>
                 </viewController>
@@ -112,7 +109,6 @@
         <!--Navigation Controller-->
         <scene sceneID="A1i-75-pzW">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="tMR-Ig-74X" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="mVo-4J-Onx" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="h2w-sv-veE">
@@ -124,17 +120,19 @@
                         <segue destination="liY-jY-BAE" kind="relationship" relationship="rootViewController" id="o13-mM-hU7"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tMR-Ig-74X" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="221.73913043478262" y="75.669642857142847"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="I3I-mh-hh0"/>
         <segue reference="Znb-bE-6eu"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="background" width="662" height="662"/>
         <namedColor name="barColor">
-            <color red="0.59267967939999999" green="0.81616425510000001" blue="0.8339689374" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.59299999475479126" green="0.81599998474121094" blue="0.83399999141693115" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

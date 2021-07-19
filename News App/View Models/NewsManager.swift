@@ -7,22 +7,16 @@
 
 import Foundation
 
-protocol NewsManagerDelegate {
-    func updateNews(searchString: String, countryCode: String)
-    func didFailWithError(error: Error)
-}
-
 class NewsManager {
     static let shared = NewsManager()
-    private var newsDelegate: NewsManagerDelegate?
     internal var totalResults = 0
     
-    func loadNewsData(searchString: String = "", countryCode:String = "", completion: @escaping ([NewsData]?) -> Void) {
+    func loadNewsData(searchString: String = "", countryCode: String = "", completion: @escaping ([NewsData]?) -> Void) {
         let baseUrlString = "https://newsapi.org/v2/"
         let topHeadline = "top-headlines?"
         var urlString = "\(baseUrlString)\(topHeadline)country=\(countryCode)&apiKey=\(APIKey.key)"
 
-        if searchString == "" {
+        if searchString.isEmpty {
             urlString = "\(baseUrlString)\(topHeadline)country=\(countryCode)&apiKey=\(APIKey.key)"
         } else {
             urlString = "\(baseUrlString)\(topHeadline)q=\(searchString)&apiKey=\(APIKey.key)"
@@ -32,7 +26,7 @@ class NewsManager {
             return
         }
         
-        URLSession.shared.dataTask(with: url) { (data, response, error) in
+        URLSession.shared.dataTask(with: url) { (data, _, error) in
             guard error == nil, let data = data else {
                 completion(nil)
                 return

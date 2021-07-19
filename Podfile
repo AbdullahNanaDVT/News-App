@@ -2,6 +2,10 @@
 # platform :ios, '9.0'
 
 target 'News App' do
+  
+  # ignore all warnings from all dependencies
+  inhibit_all_warnings!
+  
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 

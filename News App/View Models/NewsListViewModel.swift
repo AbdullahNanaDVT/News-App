@@ -9,7 +9,7 @@ import Foundation
 class NewsListViewModel {
     internal var newsArray = [NewsViewModel]()
     
-    func loadNewsData(searchString: String = "", countryCode:String = "", completion: @escaping ([NewsViewModel]) -> Void) {
+    func loadNewsData(searchString: String = "", countryCode: String = "", completion:@escaping ([NewsViewModel]) -> Void) {
         NewsManager.shared.loadNewsData(searchString: searchString, countryCode: countryCode) { (news) in
             guard let news = news else {return}
             let newsVM = news.map(NewsViewModel.init)

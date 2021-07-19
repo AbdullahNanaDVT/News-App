@@ -9,9 +9,7 @@ import UIKit
 import SafariServices
 import SDWebImage
 
-class ViewController: UITableViewController, NewsManagerDelegate {
-    
-    
+class ViewController: UITableViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var chooseCountryButton: UIBarButtonItem!
     
@@ -123,17 +121,19 @@ extension ViewController: UISearchBarDelegate {
     }
 
     func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
-        if searchBar.text != "" {
-            return true
-        } else {
+        if (searchBar.text ?? "").isEmpty {
             searchBar.placeholder = "Please type something"
             return false
+        } else {
+            return true
         }
     }
 
     private func checkResults() {
         if newManager.totalResults == 0 {
-            let alert = UIAlertController(title: "No Results", message: "No articles matches your search. Please try again.", preferredStyle: UIAlertController.Style.alert)
+            let alert = UIAlertController(title: "No Results",
+                                          message: "No articles matches your search. Please try again.",
+                                          preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
             tableView.reloadData()
             self.present(alert, animated: true, completion: nil)
@@ -155,7 +155,7 @@ extension ViewController: UISearchBarDelegate {
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
 
-        if searchBar.text?.count == 0 {
+        if (searchBar.text?.isEmpty) != nil {
             updateNews(searchString: searchText)
             checkResults()
 
@@ -165,7 +165,3 @@ extension ViewController: UISearchBarDelegate {
         }
     }
 }
-
-
-
-
