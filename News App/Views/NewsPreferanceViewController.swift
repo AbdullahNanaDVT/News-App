@@ -48,10 +48,8 @@ extension NewsPreferanceViewController: UITableViewDelegate, UITableViewDataSour
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goToNews" {
-            let destinationVC = segue.destination as? ViewController
-            print(rowNumber)
-            print(viewModel.getCountryCodes())
-            destinationVC?.countryCode = viewModel.getCountryCodes()[rowNumber]
+            _ = segue.destination as? ViewController
+            _ = viewModel.setCountryCode(viewModel.getCountryCodes()[rowNumber])
         }
     }
 }

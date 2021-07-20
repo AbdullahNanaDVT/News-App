@@ -67,13 +67,12 @@ class NewsListViewModel {
         countryLetterArray
     }
     
-    internal func validateCountryCode() {
-        if countryCode == nil {
-            countryCode = "za"
-        }
-    }
-    
     internal func getCountryCode() -> String {
         countryCode ?? "za"
+    }
+    
+    internal func setCountryCode(_ code: String) -> String {
+        countryCode = code
+        return countryCode ?? "za"
     }
 }

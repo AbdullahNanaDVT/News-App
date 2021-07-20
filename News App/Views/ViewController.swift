@@ -14,15 +14,10 @@ class ViewController: UITableViewController {
     
     private let viewModel = NewsListViewModel()
     private let newsManager = NewsManager()
-    internal var countryCode = ""
-    
-    override func loadView() {
-        super.loadView()
-        updateNews(countryCode: countryCode)
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        updateNews(countryCode: viewModel.getCountryCode())
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -31,7 +26,6 @@ class ViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        viewModel.validateCountryCode()
         applyStyling()
         refreshScreen()
     }
@@ -127,7 +121,7 @@ extension ViewController: UISearchBarDelegate {
     }
 
     internal func showAlert() {
-        if newsManager.totalResults == 0 {
+        if viewModel.getNumberOfNewsResults() == 0 {
             let alert = UIAlertController(title: "No Results",
                                           message: "No articles matches your search. Please try again.",
                                           preferredStyle: UIAlertController.Style.alert)
