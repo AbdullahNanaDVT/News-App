@@ -65,6 +65,16 @@ class ViewController: UITableViewController {
     internal func didFailWithError(error: Error) {
         print(error)
     }
+    
+    internal func showAlert() {
+        if viewModel.getNumberOfNewsResults() == 0 {
+            let alert = UIAlertController(title: "No Results",
+                                          message: "No articles matches your search. Please try again.",
+                                          preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
 }
 
 extension ViewController {
@@ -110,48 +120,16 @@ extension ViewController: UISearchBarDelegate {
         }
         searchBar.text = ""
     }
-
-    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
-        if (searchBar.text ?? "").isEmpty {
-            searchBar.placeholder = "Please type something"
-            return false
-        } else {
-            return true
-        }
-    }
-
-    internal func showAlert() {
-        if viewModel.getNumberOfNewsResults() == 0 {
-            let alert = UIAlertController(title: "No Results",
-                                          message: "No articles matches your search. Please try again.",
-                                          preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        }
-    }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-
+        showAlert()
         if let title = searchBar.text {
             updateNews(searchString: title)
-            showAlert()
         }
         searchBar.text = ""
         DispatchQueue.main.async {
             searchBar.resignFirstResponder()
         }
         tableView.reloadData()
-    }
-
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-
-        if (searchBar.text?.isEmpty) != nil {
-            updateNews(searchString: searchText)
-            showAlert()
-
-            DispatchQueue.main.async {
-                searchBar.resignFirstResponder()
-            }
-        }
     }
 }

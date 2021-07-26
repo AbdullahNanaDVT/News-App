@@ -52,7 +52,7 @@ class NewsListViewModel {
     }
     
     internal func getCountryCodes() -> [String] {
-        countryCodeArray.sorted()
+        countryCodeArray
     }
     
     internal func getNewsResults() -> [NewsViewModel] {
