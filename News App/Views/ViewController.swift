@@ -14,20 +14,18 @@ class ViewController: UITableViewController {
     
     private let viewModel = NewsListViewModel()
     private let newsManager = NewsManager()
+    internal var countryCode = NSLocale.current.regionCode?.lowercased()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        updateNews(countryCode: viewModel.getCountryCode())
+        applyStyling()
+        refreshScreen()
+        updateNews(countryCode: countryCode ?? "za")
         
         tableView.delegate = self
         tableView.dataSource = self
         searchBar.delegate = self
         tableView.register(UINib(nibName: "NewsCell", bundle: nil), forCellReuseIdentifier: "cell")
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        applyStyling()
-        refreshScreen()
     }
 
     @IBAction func didPressChooseCountryButton(_ sender: UIBarButtonItem) {
@@ -122,9 +120,9 @@ extension ViewController: UISearchBarDelegate {
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        showAlert()
         if let title = searchBar.text {
             updateNews(searchString: title)
+            showAlert()
         }
         searchBar.text = ""
         DispatchQueue.main.async {
