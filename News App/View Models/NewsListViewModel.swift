@@ -34,7 +34,6 @@ class NewsListViewModel {
             countryNameArray = countryNamePropertyListArray as? [String] ?? []
             countryCodeArray = countryCodePropertyListArray as? [String] ?? []
             countryNameArray = countryNameArray.sorted()
-            countryCodeArray = countryCodeArray.sorted()
             
             for country in countryNameArray {
                 let countryLetter = String(country.prefix(1))
@@ -71,8 +70,7 @@ class NewsListViewModel {
         countryCode ?? "za"
     }
     
-    internal func setCountryCode(_ code: String) -> String {
-        countryCode = code
-        return countryCode ?? "za"
+    internal func setCountryCode(_ codeNumber: Int) {
+        countryCode = countryCodeArray[codeNumber]
     }
 }
