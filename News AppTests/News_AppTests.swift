@@ -23,7 +23,7 @@ class NewsAppTests: XCTestCase {
     func testNumberOfCountries() throws {
         logic.fillCountryNames()
         let num = logic.getNumberOfCountries()
-        XCTAssertEqual(num, 53, "Number of countries in list not equal")
+        XCTAssertEqual(num, 36, "Number of countries in list not equal")
     }
     func testNumberOfNewsResults() throws {
         let count = logic.newsArray.count
@@ -33,28 +33,24 @@ class NewsAppTests: XCTestCase {
     func testCountryCodeArray() throws {
         logic.fillCountryNames()
         let testArray = logic.getCountryCodes()
-        let countryCodeArray = ["ae", "ar", "at", "au", "be", "bg", "br", "ca", "ch", "cn",
-                                               "co", "cu", "cz", "de", "eg", "fr", "gb", "gr", "hk", "hu",
-                                               "id", "ie", "il", "in", "it", "jp", "kr", "lt", "lv", "ma",
-                                               "mx", "my", "ng", "nl", "no", "nz", "ph", "pl", "pt", "ro",
-                                               "rs", "ru", "sa", "se", "sg", "si", "sk", "th", "tr", "tw",
-                                               "ua", "us", "ve", "za"]
+        let countryCodeArray = ["ar", "au", "be", "br", "ca", "cn", "eg", "fr", "de",
+                                "gb", "gr", "hk", "hu", "in", "id", "ie", "it", "jp",
+                                "lv", "lt", "my", "mx", "nl", "nz", "ng", "pl", "pt",
+                                "ru", "sa", "sg", "za", "th", "tr", "us", "ae", "ve"]
         XCTAssertEqual(countryCodeArray, testArray, "Country code arrays not equal not equal")
     }
     func testCountryNameArray() throws {
         logic.fillCountryNames()
         let testArray = logic.getCountryNames()
-        let countryNameArray = ["United Arab Emirates", "Argentina", "Austria", "Australia", "Belgium", "Bulgaria",
-                                "Brazil", "Canada", "Switzerland", "China",
-                                "Colombia", "Cuba", "Czech Republic", "Germany", "Egyp", "France", "Great Britain",
-                                "Greece", "Honk Kong", "Hungary",
-                                "Indonesia", "Ireland", "India", "Italy", "Japan", "South Korea",
-                                "Lithuania", "Latvia", "Marocco",
-                                "Mexico", "Malaysia", "Nigeria", "Netherlands", "Norway", "New Zealand", "Philippines",
-                                "Poland", "Portugal", "Romania",
-                                "Serbia", "Russia", "Saudi Arabia", "Sweden", "Singapore", "Slovenia", "Slovakia",
-                                "Thailand", "Turkey", "Taiwan",
-                                "Ukraine", "USA", "Venezuela", "South Africa"]
+        let countryNameArray = ["Argentina", "Austria", "Belgium", "Brazil", "Canada",
+                                "China", "Egypt", "France", "Germany",
+                                "Great Britain", "Greece", "Honk Kong",
+                                "Hungary", "India", "Indonesia", "Ireland", "Italy",
+                                "Japan", "Latvia", "Lithuania", "Malaysia", "Mexico",
+                                "Netherlands", "New Zealand", "Nigeria",
+                                "Poland", "Portugal", "Russia", "Saudi Arabia", "Singapore",
+                                "South Africa", "Thailand", "Turkey",
+                                "USA", "United Arab Emirates", "Venezuela"]
         let sortedArray = countryNameArray.sorted()
         XCTAssertEqual(sortedArray, testArray, "Country code arrays not equal not equal")
     }
