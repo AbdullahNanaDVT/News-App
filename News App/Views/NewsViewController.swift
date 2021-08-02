@@ -8,7 +8,7 @@ import UIKit
 import SafariServices
 import SDWebImage
 
-class ViewController: UITableViewController {
+class NewsViewController: UITableViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var chooseCountryButton: UIBarButtonItem!
     
@@ -75,7 +75,7 @@ class ViewController: UITableViewController {
     }
 }
 
-extension ViewController {
+extension NewsViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel.getNumberOfNewsResults()
@@ -109,7 +109,7 @@ extension ViewController {
     }
 }
 
-extension ViewController: UISearchBarDelegate {
+extension NewsViewController: UISearchBarDelegate {
 
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         if let title = searchBar.text {

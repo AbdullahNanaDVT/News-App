@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NewsPreferanceViewController: UIViewController {
+class ChoseCountryViewController: UIViewController {
     
     @IBOutlet private weak var label: UILabel!
     @IBOutlet weak var tableView: UITableView!
@@ -24,7 +24,7 @@ class NewsPreferanceViewController: UIViewController {
     }
 }
 
-extension NewsPreferanceViewController: UITableViewDelegate, UITableViewDataSource {
+extension ChoseCountryViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel.getNumberOfCountries()
@@ -49,7 +49,7 @@ extension NewsPreferanceViewController: UITableViewDelegate, UITableViewDataSour
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goToNews" {
             viewModel.setCountryCode(rowNumber)
-            let destinationVC = segue.destination as? ViewController
+            let destinationVC = segue.destination as? NewsViewController
             destinationVC?.countryCode = viewModel.getCountryCode()
             
         }
