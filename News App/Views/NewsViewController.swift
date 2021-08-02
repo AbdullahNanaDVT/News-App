@@ -45,7 +45,7 @@ class NewsViewController: UITableViewController {
     
     private func applyStyling() {
         navigationItem.hidesBackButton = false
-        navigationController?.navigationBar.barTintColor = UIColor(named: "barColor")
+        navigationController?.navigationBar.barTintColor = .barColor
         tableView.backgroundColor = .clear
         searchBar.backgroundColor = .clear
         self.tableView.backgroundView = UIImageView(image: UIImage(named: "background")!)

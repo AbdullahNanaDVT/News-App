@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		270F739726B802DC00745270 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270F739626B802DC00745270 /* Color.swift */; };
 		277F6A00269F01E80080784C /* NewsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277F69FF269F01E80080784C /* NewsManager.swift */; };
 		277F6A02269F0E720080784C /* NewsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277F6A01269F0E720080784C /* NewsListViewModel.swift */; };
 		277F6A3B26A0379B0080784C /* Countries.plist in Resources */ = {isa = PBXBuildFile; fileRef = 277F6A3A26A0379B0080784C /* Countries.plist */; };
@@ -50,6 +51,7 @@
 
 /* Begin PBXFileReference section */
 		179D0AEC8112C4B0045259A7 /* Pods-News App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-News App.debug.xcconfig"; path = "Target Support Files/Pods-News App/Pods-News App.debug.xcconfig"; sourceTree = "<group>"; };
+		270F739626B802DC00745270 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		277F69FF269F01E80080784C /* NewsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsManager.swift; sourceTree = "<group>"; };
 		277F6A01269F0E720080784C /* NewsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsListViewModel.swift; sourceTree = "<group>"; };
 		277F6A3A26A0379B0080784C /* Countries.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Countries.plist; sourceTree = "<group>"; };
@@ -114,6 +116,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		270F739526B8028700745270 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				270F739626B802DC00745270 /* Color.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		277E950D269EF11C003DFB72 /* View Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -149,6 +159,7 @@
 		27BDE02C268D31BD000B2037 /* News App */ = {
 			isa = PBXGroup;
 			children = (
+				270F739526B8028700745270 /* Extensions */,
 				277F6A3A26A0379B0080784C /* Countries.plist */,
 				277F6A3C26A048780080784C /* CountryCodes.plist */,
 				277E950D269EF11C003DFB72 /* View Models */,
@@ -497,6 +508,7 @@
 			files = (
 				277F6A00269F01E80080784C /* NewsManager.swift in Sources */,
 				27BDE06A268DC7A8000B2037 /* NewsViewModel.swift in Sources */,
+				270F739726B802DC00745270 /* Color.swift in Sources */,
 				27BDE032268D31BD000B2037 /* NewsViewController.swift in Sources */,
 				27BDE02E268D31BD000B2037 /* AppDelegate.swift in Sources */,
 				27BDE068268DC74B000B2037 /* NewsData.swift in Sources */,
