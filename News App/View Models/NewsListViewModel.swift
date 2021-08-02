@@ -63,7 +63,8 @@ class NewsListViewModel {
     }
     
     var countryPrefixes: [String] {
-        countryLetterArray
+        let uniqueOrderedPrefixArray = NSOrderedSet(array: countryLetterArray).array as? [String] ?? []
+        return uniqueOrderedPrefixArray
     }
     
     var countryCode: String {

@@ -46,6 +46,10 @@ extension ChoseCountryViewController: UITableViewDelegate, UITableViewDataSource
         viewModel.countryPrefixes
     }
     
+    func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
+        index
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goToNews" {
             viewModel.changeCountryCode(rowNumber)
