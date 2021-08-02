@@ -27,13 +27,13 @@ class ChoseCountryViewController: UIViewController {
 extension ChoseCountryViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.getNumberOfCountries()
+        viewModel.numberOfCountries
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "newsCell")!
         cell.backgroundColor = .clear
-        cell.textLabel?.text = viewModel.getCountryNames()[indexPath.row]
+        cell.textLabel?.text = viewModel.countryNames[indexPath.row]
         return cell
     }
     
@@ -43,14 +43,14 @@ extension ChoseCountryViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        viewModel.getCountryPrefixes()
+        viewModel.countryPrefixes
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goToNews" {
-            viewModel.setCountryCode(rowNumber)
+            viewModel.changeCountryCode(rowNumber)
             let destinationVC = segue.destination as? NewsViewController
-            destinationVC?.countryCode = viewModel.getCountryCode()
+            destinationVC?.countryCode = viewModel.countryCode
             
         }
     }

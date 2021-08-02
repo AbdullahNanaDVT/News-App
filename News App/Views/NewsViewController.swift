@@ -65,7 +65,7 @@ class NewsViewController: UITableViewController {
     }
     
     internal func showAlert() {
-        if viewModel.getNumberOfNewsResults() == 0 {
+        if viewModel.numberOfNewsResults == 0 {
             let alert = UIAlertController(title: "No Results",
                                           message: "No articles matches your search. Please try again.",
                                           preferredStyle: UIAlertController.Style.alert)
@@ -78,13 +78,13 @@ class NewsViewController: UITableViewController {
 extension NewsViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.getNumberOfNewsResults()
+        viewModel.numberOfNewsResults
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? NewsCell
-        let newsObject = viewModel.getNewsResults()[indexPath.row]
+        let newsObject = viewModel.newsResults[indexPath.row]
         cell?.titleLabel.text = newsObject.title
         cell?.descriptionLabel.text = newsObject.description
         cell?.newsImageView.sd_setImage(with: URL(string: newsObject.urlToImage), placeholderImage: UIImage(named: "news.jpg"))
@@ -96,7 +96,7 @@ extension NewsViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let news = viewModel.getNewsResults()[indexPath.row]
+        let news = viewModel.newsResults[indexPath.row]
         
         guard let url = URL(string: news.url ) else {
             return
