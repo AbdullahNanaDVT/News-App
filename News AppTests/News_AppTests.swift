@@ -9,7 +9,7 @@ import XCTest
 @testable import News_App
 
 class NewsAppTests: XCTestCase {
-    private var logic = NewsListViewModel()
+    private lazy var logic = NewsListViewModel()
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.

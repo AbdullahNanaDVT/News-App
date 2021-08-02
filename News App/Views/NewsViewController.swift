@@ -14,7 +14,7 @@ class NewsViewController: UITableViewController {
     
     private let viewModel = NewsListViewModel()
     private let newsManager = NewsManager()
-    internal var countryCode = NSLocale.current.regionCode?.lowercased()
+    lazy var countryCode = NSLocale.current.regionCode?.lowercased()
     
     override func viewDidLoad() {
         super.viewDidLoad()

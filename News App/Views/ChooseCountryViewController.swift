@@ -11,8 +11,8 @@ class ChoseCountryViewController: UIViewController {
     
     @IBOutlet private weak var label: UILabel!
     @IBOutlet weak var tableView: UITableView!
-    private var viewModel = NewsListViewModel()
-    private var rowNumber: Int = 0
+    private lazy var viewModel = NewsListViewModel()
+    private lazy var rowNumber: Int = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -10,9 +10,9 @@ class NewsListViewModel {
     var newsArray = [NewsViewModel]()
     private var countryNamePropertyListArray: NSArray?
     private var countryCodePropertyListArray: NSArray?
-    private var countryNameArray: [String] = []
-    private var countryCodeArray: [String] = []
-    private var countryLetterArray: [String] = []
+    private lazy var countryNameArray: [String] = []
+    private lazy var countryCodeArray: [String] = []
+    private lazy var countryLetterArray: [String] = []
     private lazy var countryCodeLocation = NSLocale.current.regionCode?.lowercased()
     
     func loadNewsData(searchString: String = "", countryCode: String = "", completion:@escaping ([NewsViewModel]) -> Void) {
