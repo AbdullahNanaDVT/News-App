@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct NewsData: Codable {
+struct Article: Codable {
     let author: String?
     let title: String?
     let description: String?
@@ -18,5 +18,5 @@ struct NewsData: Codable {
 struct NewsResults: Codable {
     let status: String
     let totalResults: Int
-    let articles: [NewsData]
+    let articles: [Article]
 }

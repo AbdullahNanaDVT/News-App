@@ -7,12 +7,12 @@
 
 import UIKit
 
-class NewsPreferanceViewController: UIViewController {
+class ChoseCountryViewController: UIViewController {
     
     @IBOutlet private weak var label: UILabel!
     @IBOutlet weak var tableView: UITableView!
-    private var viewModel = NewsListViewModel()
-    private var rowNumber: Int = 0
+    private lazy var viewModel = NewsListViewModel()
+    private lazy var rowNumber: Int = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,16 +24,16 @@ class NewsPreferanceViewController: UIViewController {
     }
 }
 
-extension NewsPreferanceViewController: UITableViewDelegate, UITableViewDataSource {
+extension ChoseCountryViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.getNumberOfCountries()
+        viewModel.numberOfCountries
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "newsCell")!
         cell.backgroundColor = .clear
-        cell.textLabel?.text = viewModel.getCountryNames()[indexPath.row]
+        cell.textLabel?.text = viewModel.countryNames[indexPath.row]
         return cell
     }
     
@@ -43,14 +43,18 @@ extension NewsPreferanceViewController: UITableViewDelegate, UITableViewDataSour
     }
     
     func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        viewModel.getCountryPrefixes()
+        viewModel.countryPrefixes
+    }
+    
+    func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
+        index
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goToNews" {
-            viewModel.setCountryCode(rowNumber)
-            let destinationVC = segue.destination as? ViewController
-            destinationVC?.countryCode = viewModel.getCountryCode()
+            viewModel.changeCountryCode(rowNumber)
+            let destinationVC = segue.destination as? NewsViewController
+            destinationVC?.countryCode = viewModel.countryCode
             
         }
     }

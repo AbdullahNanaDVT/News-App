@@ -11,7 +11,7 @@ class NewsManager {
     static let shared = NewsManager()
     internal var totalResults = 0
     
-    func loadNewsData(searchString: String = "", countryCode: String = "", completion: @escaping ([NewsData]?) -> Void) {
+    func loadNewsData(searchString: String = "", countryCode: String = "", completion: @escaping ([Article]?) -> Void) {
         let baseUrlString = "https://newsapi.org/v2/"
         let topHeadline = "top-headlines?"
         var urlString = "\(baseUrlString)\(topHeadline)country=\(countryCode)&apiKey=\(APIKey.key)"

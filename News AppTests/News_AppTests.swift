@@ -9,7 +9,7 @@ import XCTest
 @testable import News_App
 
 class NewsAppTests: XCTestCase {
-    private var logic = NewsListViewModel()
+    private lazy var logic = NewsListViewModel()
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -22,17 +22,17 @@ class NewsAppTests: XCTestCase {
 
     func testNumberOfCountries() throws {
         logic.fillCountryNames()
-        let num = logic.getNumberOfCountries()
+        let num = logic.numberOfCountries
         XCTAssertEqual(num, 36, "Number of countries in list not equal")
     }
     func testNumberOfNewsResults() throws {
         let count = logic.newsArray.count
-        let numberOfCountries = logic.getNumberOfNewsResults()
+        let numberOfCountries = logic.numberOfNewsResults
         XCTAssertEqual(numberOfCountries, count, "Number of news results are not equal")
     }
     func testCountryCodeArray() throws {
         logic.fillCountryNames()
-        let testArray = logic.getCountryCodes()
+        let testArray = logic.countryCodes
         let countryCodeArray = ["ar", "au", "be", "br", "ca", "cn", "eg", "fr", "de",
                                 "gb", "gr", "hk", "hu", "in", "id", "ie", "it", "jp",
                                 "lv", "lt", "my", "mx", "nl", "nz", "ng", "pl", "pt",
@@ -41,7 +41,7 @@ class NewsAppTests: XCTestCase {
     }
     func testCountryNameArray() throws {
         logic.fillCountryNames()
-        let testArray = logic.getCountryNames()
+        let testArray = logic.countryNames
         let countryNameArray = ["Argentina", "Austria", "Belgium", "Brazil", "Canada",
                                 "China", "Egypt", "France", "Germany",
                                 "Great Britain", "Greece", "Honk Kong",

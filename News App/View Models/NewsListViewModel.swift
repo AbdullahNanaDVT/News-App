@@ -7,15 +7,15 @@
 import Foundation
 
 class NewsListViewModel {
-    internal var newsArray = [NewsViewModel]()
+    var newsArray = [NewsViewModel]()
     private var countryNamePropertyListArray: NSArray?
     private var countryCodePropertyListArray: NSArray?
-    private var countryNameArray: [String] = []
-    private var countryCodeArray: [String] = []
-    private var countryLetterArray: [String] = []
-    private var countryCode = NSLocale.current.regionCode?.lowercased()
+    private lazy var countryNameArray: [String] = []
+    private lazy var countryCodeArray: [String] = []
+    private lazy var countryLetterArray: [String] = []
+    private lazy var countryCodeLocation = NSLocale.current.regionCode?.lowercased()
     
-    internal func loadNewsData(searchString: String = "", countryCode: String = "", completion:@escaping ([NewsViewModel]) -> Void) {
+    func loadNewsData(searchString: String = "", countryCode: String = "", completion:@escaping ([NewsViewModel]) -> Void) {
         NewsManager.shared.loadNewsData(searchString: searchString, countryCode: countryCode) { (news) in
             guard let news = news else {return}
             let newsVM = news.map(NewsViewModel.init)
@@ -26,7 +26,7 @@ class NewsListViewModel {
         }
     }
     
-    internal func fillCountryNames() {
+    func fillCountryNames() {
         if let countryNamePath = Bundle.main.path(forResource: "Countries", ofType: "plist"),
            let countryCodePath = Bundle.main.path(forResource: "CountryCodes", ofType: "plist") {
             countryNamePropertyListArray = NSArray(contentsOfFile: countryNamePath)
@@ -42,35 +42,36 @@ class NewsListViewModel {
         }
     }
     
-    internal func getNumberOfCountries() -> Int {
+    var numberOfCountries: Int {
         countryNameArray.count
     }
-    
-    internal func getNumberOfNewsResults() -> Int {
+
+    var numberOfNewsResults: Int {
         newsArray.count
     }
     
-    internal func getCountryCodes() -> [String] {
+    var countryCodes: [String] {
         countryCodeArray
     }
     
-    internal func getNewsResults() -> [NewsViewModel] {
+    var newsResults: [NewsViewModel] {
         newsArray
     }
     
-    internal func getCountryNames() -> [String] {
+    var countryNames: [String] {
         countryNameArray
     }
     
-    internal func getCountryPrefixes() -> [String] {
-        countryLetterArray
+    var countryPrefixes: [String] {
+        let uniqueOrderedPrefixArray = NSOrderedSet(array: countryLetterArray).array as? [String] ?? []
+        return uniqueOrderedPrefixArray
     }
     
-    internal func getCountryCode() -> String {
-        countryCode ?? "za"
+    var countryCode: String {
+        countryCodeLocation ?? "za"
     }
     
-    internal func setCountryCode(_ codeNumber: Int) {
-        countryCode = countryCodeArray[codeNumber]
+    func changeCountryCode(_ codeNumber: Int) {
+        countryCodeLocation = countryCodeArray[codeNumber]
     }
 }
