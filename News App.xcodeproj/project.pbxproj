@@ -162,6 +162,7 @@
 				270F739526B8028700745270 /* Extensions */,
 				277F6A3A26A0379B0080784C /* Countries.plist */,
 				277F6A3C26A048780080784C /* CountryCodes.plist */,
+				27BDE067268DC74B000B2037 /* NewsData.swift */,
 				277E950D269EF11C003DFB72 /* View Models */,
 				27BDE036268D31BE000B2037 /* Assets.xcassets */,
 				27BDE07C269377F2000B2037 /* News App.entitlements */,
@@ -204,7 +205,6 @@
 		27BDE072268F4894000B2037 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				27BDE067268DC74B000B2037 /* NewsData.swift */,
 				27BDE038268D31BE000B2037 /* LaunchScreen.storyboard */,
 				27BDE033268D31BD000B2037 /* Main.storyboard */,
 				27BDE061268D33EF000B2037 /* NewsCell.swift */,

@@ -10,4 +10,3 @@ import UIKit
 extension UIColor {
     static let barColor = UIColor(named: "barColor")
 }
-

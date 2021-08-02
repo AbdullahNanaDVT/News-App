@@ -8,7 +8,7 @@
 import Foundation
 
 struct NewsViewModel {
-    let news: NewsData
+    let news: Article
     
     var author: String {
         return news.author ?? "Unknown"
