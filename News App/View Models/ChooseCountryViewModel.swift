@@ -6,25 +6,14 @@
 //
 import Foundation
 
-class NewsListViewModel {
-    var newsArray = [NewsViewModel]()
+class ChooseCountryViewModel {
+    var newsArray = [ArticleResults]()
     private var countryNamePropertyListArray: NSArray?
     private var countryCodePropertyListArray: NSArray?
     private lazy var countryNameArray: [String] = []
     private lazy var countryCodeArray: [String] = []
     private lazy var countryLetterArray: [String] = []
     private lazy var countryCodeLocation = NSLocale.current.regionCode?.lowercased()
-    
-    func loadNewsData(searchString: String = "", countryCode: String = "", completion:@escaping ([NewsViewModel]) -> Void) {
-        NewsManager.shared.loadNewsData(searchString: searchString, countryCode: countryCode) { (news) in
-            guard let news = news else {return}
-            let newsVM = news.map(NewsViewModel.init)
-            DispatchQueue.main.async {
-                self.newsArray = newsVM
-                completion(newsVM)
-            }
-        }
-    }
     
     func fillCountryNames() {
         if let countryNamePath = Bundle.main.path(forResource: "Countries", ofType: "plist"),
@@ -45,17 +34,9 @@ class NewsListViewModel {
     var numberOfCountries: Int {
         countryNameArray.count
     }
-
-    var numberOfNewsResults: Int {
-        newsArray.count
-    }
     
     var countryCodes: [String] {
         countryCodeArray
-    }
-    
-    var newsResults: [NewsViewModel] {
-        newsArray
     }
     
     var countryNames: [String] {

@@ -9,11 +9,12 @@ import XCTest
 @testable import News_App
 
 class NewsAppTests: XCTestCase {
-    private lazy var logic = NewsListViewModel()
+    private lazy var chooseCountryViewModelLogic = ChooseCountryViewModel()
+    private lazy var newsViewModelLogic = NewsViewModel()
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
-        logic = NewsListViewModel()
+        chooseCountryViewModelLogic = ChooseCountryViewModel()
     }
 
     override func tearDownWithError() throws {
@@ -21,18 +22,18 @@ class NewsAppTests: XCTestCase {
     }
 
     func testNumberOfCountries() throws {
-        logic.fillCountryNames()
-        let num = logic.numberOfCountries
+        chooseCountryViewModelLogic.fillCountryNames()
+        let num = chooseCountryViewModelLogic.numberOfCountries
         XCTAssertEqual(num, 36, "Number of countries in list not equal")
     }
     func testNumberOfNewsResults() throws {
-        let count = logic.newsArray.count
-        let numberOfCountries = logic.numberOfNewsResults
+        let count = newsViewModelLogic.newsResults.count
+        let numberOfCountries = newsViewModelLogic.numberOfNewsResults
         XCTAssertEqual(numberOfCountries, count, "Number of news results are not equal")
     }
     func testCountryCodeArray() throws {
-        logic.fillCountryNames()
-        let testArray = logic.countryCodes
+        chooseCountryViewModelLogic.fillCountryNames()
+        let testArray = chooseCountryViewModelLogic.countryCodes
         let countryCodeArray = ["ar", "au", "be", "br", "ca", "cn", "eg", "fr", "de",
                                 "gb", "gr", "hk", "hu", "in", "id", "ie", "it", "jp",
                                 "lv", "lt", "my", "mx", "nl", "nz", "ng", "pl", "pt",
@@ -40,8 +41,8 @@ class NewsAppTests: XCTestCase {
         XCTAssertEqual(countryCodeArray, testArray, "Country code arrays not equal not equal")
     }
     func testCountryNameArray() throws {
-        logic.fillCountryNames()
-        let testArray = logic.countryNames
+        chooseCountryViewModelLogic.fillCountryNames()
+        let testArray = chooseCountryViewModelLogic.countryNames
         let countryNameArray = ["Argentina", "Austria", "Belgium", "Brazil", "Canada",
                                 "China", "Egypt", "France", "Germany",
                                 "Great Britain", "Greece", "Honk Kong",
