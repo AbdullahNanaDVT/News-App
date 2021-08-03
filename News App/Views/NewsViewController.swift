@@ -64,10 +64,10 @@ class NewsViewController: UITableViewController {
     
     internal func showAlert() {
         if newsViewModel.numberOfNewsResults == 0 {
-            let alert = UIAlertController(title: "No Results",
-                                          message: "No articles matches your search. Please try again.",
+            let alert = UIAlertController(title: NSLocalizedString("ALERT_TITLE", comment: ""),
+                                          message: NSLocalizedString("ALERT_MESSAGE", comment: ""),
                                           preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("ALERT_ACTION_TITLE", comment: ""), style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }
     }
