@@ -11,7 +11,6 @@ import SDWebImage
 class NewsViewController: UITableViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var chooseCountryButton: UIBarButtonItem!
-    
     private let newsViewModel = NewsViewModel()
     lazy var countryCode = NSLocale.current.regionCode?.lowercased()
     
@@ -52,7 +51,7 @@ class NewsViewController: UITableViewController {
     }
 
     private func updateNews(searchString: String = "", countryCode: String = "") {
-        newsViewModel.newsData(searchString: searchString, countryCode: countryCode) { (_) in
+        newsViewModel.mapNewsData(searchString: searchString, countryCode: countryCode) { (_) in
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }

@@ -8,9 +8,9 @@
 import Foundation
 
 class NewsViewModel {
-    var newsArray = [ArticleResults]()
+    private var newsArray = [ArticleResults]()
     static let shared = NewsViewModel()
-    internal var totalResults = 0
+    private var totalResults = 0
     
     func newsData(searchString: String = "", countryCode: String = "", completion: @escaping ([Article]?) -> Void) {
         let baseUrlString = "https://newsapi.org/v2/"
@@ -38,7 +38,7 @@ class NewsViewModel {
         }.resume()
     }
     
-    func loadNewsData(searchString: String = "", countryCode: String = "", completion:@escaping ([ArticleResults]) -> Void) {
+    func mapNewsData(searchString: String = "", countryCode: String = "", completion:@escaping ([ArticleResults]) -> Void) {
         NewsViewModel.shared.newsData(searchString: searchString, countryCode: countryCode) { (news) in
             guard let news = news else {return}
             let newsVM = news.map(ArticleResults.init)

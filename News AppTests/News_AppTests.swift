@@ -27,7 +27,7 @@ class NewsAppTests: XCTestCase {
         XCTAssertEqual(num, 36, "Number of countries in list not equal")
     }
     func testNumberOfNewsResults() throws {
-        let count = newsViewModelLogic.newsArray.count
+        let count = newsViewModelLogic.newsResults.count
         let numberOfCountries = newsViewModelLogic.numberOfNewsResults
         XCTAssertEqual(numberOfCountries, count, "Number of news results are not equal")
     }
