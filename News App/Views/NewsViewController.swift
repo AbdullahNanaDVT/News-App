@@ -12,8 +12,7 @@ class NewsViewController: UITableViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var chooseCountryButton: UIBarButtonItem!
     
-    private let viewModel = NewsListViewModel()
-    private let newsManager = NewsManager()
+    private let newsViewModel = NewsViewModel()
     lazy var countryCode = NSLocale.current.regionCode?.lowercased()
     
     override func viewDidLoad() {
@@ -53,7 +52,7 @@ class NewsViewController: UITableViewController {
     }
 
     private func updateNews(searchString: String = "", countryCode: String = "") {
-        viewModel.loadNewsData(searchString: searchString, countryCode: countryCode) { (_) in
+        newsViewModel.newsData(searchString: searchString, countryCode: countryCode) { (_) in
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
@@ -65,7 +64,7 @@ class NewsViewController: UITableViewController {
     }
     
     internal func showAlert() {
-        if viewModel.numberOfNewsResults == 0 {
+        if newsViewModel.numberOfNewsResults == 0 {
             let alert = UIAlertController(title: "No Results",
                                           message: "No articles matches your search. Please try again.",
                                           preferredStyle: UIAlertController.Style.alert)
@@ -78,13 +77,13 @@ class NewsViewController: UITableViewController {
 extension NewsViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.numberOfNewsResults
+        newsViewModel.numberOfNewsResults
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? NewsCell
-        let newsObject = viewModel.newsResults[indexPath.row]
+        let newsObject = newsViewModel.newsResults[indexPath.row]
         cell?.titleLabel.text = newsObject.title
         cell?.descriptionLabel.text = newsObject.description
         cell?.newsImageView.sd_setImage(with: URL(string: newsObject.urlToImage), placeholderImage: UIImage(named: "news.jpg"))
@@ -96,7 +95,7 @@ extension NewsViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let news = viewModel.newsResults[indexPath.row]
+        let news = newsViewModel.newsResults[indexPath.row]
         
         guard let url = URL(string: news.url ) else {
             return

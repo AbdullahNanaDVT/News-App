@@ -7,11 +7,11 @@
 
 import UIKit
 
-class ChoseCountryViewController: UIViewController {
+class ChooseCountryViewController: UIViewController {
     
     @IBOutlet private weak var label: UILabel!
     @IBOutlet weak var tableView: UITableView!
-    private lazy var viewModel = NewsListViewModel()
+    private lazy var viewModel = ChooseCountryViewModel()
     private lazy var rowNumber: Int = 0
 
     override func viewDidLoad() {
@@ -24,7 +24,7 @@ class ChoseCountryViewController: UIViewController {
     }
 }
 
-extension ChoseCountryViewController: UITableViewDelegate, UITableViewDataSource {
+extension ChooseCountryViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel.numberOfCountries
