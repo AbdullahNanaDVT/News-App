@@ -98,7 +98,6 @@
                     <connections>
                         <outlet property="label" destination="vww-Cc-DyW" id="bSc-yA-Bwv"/>
                         <outlet property="tableView" destination="oKj-EV-z4v" id="YLF-nU-bJA"/>
-                        <segue destination="liY-jY-BAE" kind="presentation" identifier="goToNews" id="Znb-bE-6eu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ljz-n3-Our" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -124,9 +123,6 @@
             <point key="canvasLocation" x="221.73913043478262" y="75.669642857142847"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="Znb-bE-6eu"/>
-    </inferredMetricsTieBreakers>
     <resources>
         <image name="background" width="662" height="662"/>
         <namedColor name="barColor">

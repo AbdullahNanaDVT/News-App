@@ -7,18 +7,24 @@
 import UIKit
 import SafariServices
 import SDWebImage
+import MapKit
+import CoreLocation
 
 class NewsViewController: UITableViewController {
+    
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var chooseCountryButton: UIBarButtonItem!
     private let newsViewModel = NewsViewModel()
-    lazy var countryCode = NSLocale.current.regionCode?.lowercased()
+    private var chooseCountryVC = ChooseCountryViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        chooseCountryVC.delegate = self
+        newsViewModel.delegate = self
         applyStyling()
         refreshScreen()
-        updateNews(countryCode: countryCode ?? "za")
+        
+        newsViewModel.locationSetup()
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -127,5 +133,23 @@ extension NewsViewController: UISearchBarDelegate {
             searchBar.resignFirstResponder()
         }
         tableView.reloadData()
+    }
+}
+
+extension NewsViewController: ChooseCountryDelegate {
+    func didChangeCountry(to code: String) {
+        let countryCode = newsViewModel.countryCode(for: code)
+        print("VC countryCode result: \(newsViewModel.countryCode(for: code))")
+        print("didChangeCountry delegate : \(code)")
+        DispatchQueue.main.async {
+            self.updateNews(countryCode: countryCode)
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "goToPreferance" {
+            let secondVC = segue.destination as? ChooseCountryViewController
+            secondVC?.delegate = self
+        }
     }
 }
