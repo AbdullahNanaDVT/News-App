@@ -1,0 +1,10 @@
+/* 
+  Localizable.strings
+  News App
+
+  Created by Abdullah Nana on 2021/08/03.
+  
+*/
+"ALERT_TITLE" = "No Results";
+"ALERT_MESSAGE" = "No articles matches your search. Please try again.";
+"ALERT_ACTION_TITLE" = "Okay";

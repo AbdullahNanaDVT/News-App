@@ -13,7 +13,6 @@ class ChooseCountryViewModel {
     private lazy var countryNameArray: [String] = []
     private lazy var countryCodeArray: [String] = []
     private lazy var countryLetterArray: [String] = []
-    private lazy var countryCodeLocation = NSLocale.current.regionCode?.lowercased()
     
     func fillCountryNames() {
         if let countryNamePath = Bundle.main.path(forResource: "Countries", ofType: "plist"),
@@ -48,11 +47,7 @@ class ChooseCountryViewModel {
         return uniqueOrderedPrefixArray
     }
     
-    var countryCode: String {
-        countryCodeLocation ?? "za"
-    }
-    
-    func changeCountryCode(_ codeNumber: Int) {
-        countryCodeLocation = countryCodeArray[codeNumber]
+    func convertToCountryCode(_ codeNumber: Int) -> String {
+        countryCodeArray[codeNumber]
     }
 }

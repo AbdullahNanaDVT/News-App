@@ -1,0 +1,9 @@
+
+/* Class = "UIBarButtonItem"; title = "Choose Country"; ObjectID = "Lfv-m8-02G"; */
+"Lfv-m8-02G.title" = "Choose Country";
+
+/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "dav-d5-nSl"; */
+"dav-d5-nSl.title" = "Back";
+
+/* Class = "UILabel"; text = "Please select your country"; ObjectID = "vww-Cc-DyW"; */
+"vww-Cc-DyW.text" = "Please select your country";

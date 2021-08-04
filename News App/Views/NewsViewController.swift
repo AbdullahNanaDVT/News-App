@@ -7,18 +7,24 @@
 import UIKit
 import SafariServices
 import SDWebImage
+import MapKit
+import CoreLocation
 
 class NewsViewController: UITableViewController {
+    
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var chooseCountryButton: UIBarButtonItem!
     private let newsViewModel = NewsViewModel()
-    lazy var countryCode = NSLocale.current.regionCode?.lowercased()
+    private var chooseCountryVC = ChooseCountryViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        chooseCountryVC.delegate = self
+        newsViewModel.delegate = self
         applyStyling()
         refreshScreen()
-        updateNews(countryCode: countryCode ?? "za")
+        
+        newsViewModel.locationSetup()
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -64,10 +70,10 @@ class NewsViewController: UITableViewController {
     
     internal func showAlert() {
         if newsViewModel.numberOfNewsResults == 0 {
-            let alert = UIAlertController(title: "No Results",
-                                          message: "No articles matches your search. Please try again.",
+            let alert = UIAlertController(title: NSLocalizedString("ALERT_TITLE", comment: ""),
+                                          message: NSLocalizedString("ALERT_MESSAGE", comment: ""),
                                           preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("ALERT_ACTION_TITLE", comment: ""), style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }
     }
@@ -127,5 +133,23 @@ extension NewsViewController: UISearchBarDelegate {
             searchBar.resignFirstResponder()
         }
         tableView.reloadData()
+    }
+}
+
+extension NewsViewController: ChooseCountryDelegate {
+    func didChangeCountry(to code: String) {
+        let countryCode = newsViewModel.countryCode(for: code)
+        print("VC countryCode result: \(newsViewModel.countryCode(for: code))")
+        print("didChangeCountry delegate : \(code)")
+        DispatchQueue.main.async {
+            self.updateNews(countryCode: countryCode)
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "goToPreferance" {
+            let secondVC = segue.destination as? ChooseCountryViewController
+            secondVC?.delegate = self
+        }
     }
 }

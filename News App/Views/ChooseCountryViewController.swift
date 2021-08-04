@@ -7,12 +7,17 @@
 
 import UIKit
 
+protocol ChooseCountryDelegate: AnyObject {
+    func didChangeCountry(to _: String)
+}
+
 class ChooseCountryViewController: UIViewController {
     
     @IBOutlet private weak var label: UILabel!
     @IBOutlet weak var tableView: UITableView!
     private lazy var viewModel = ChooseCountryViewModel()
     private lazy var rowNumber: Int = 0
+    weak var delegate: ChooseCountryDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,8 +43,11 @@ extension ChooseCountryViewController: UITableViewDelegate, UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        rowNumber = indexPath.row
-        performSegue(withIdentifier: "goToNews", sender: self)
+        
+        let newCountryCode = viewModel.convertToCountryCode(indexPath.row)
+        print("chooseCountryVC converted newCountryCode: \(newCountryCode)")
+        delegate?.didChangeCountry(to: newCountryCode)
+        dismiss(animated: true, completion: nil)
     }
     
     func sectionIndexTitles(for tableView: UITableView) -> [String]? {
@@ -48,14 +56,5 @@ extension ChooseCountryViewController: UITableViewDelegate, UITableViewDataSourc
     
     func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
         index
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "goToNews" {
-            viewModel.changeCountryCode(rowNumber)
-            let destinationVC = segue.destination as? NewsViewController
-            destinationVC?.countryCode = viewModel.countryCode
-            
-        }
     }
 }
