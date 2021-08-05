@@ -15,11 +15,10 @@ class NewsViewController: UITableViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var chooseCountryButton: UIBarButtonItem!
     private let newsViewModel = NewsViewModel()
-    private var chooseCountryVC = ChooseCountryViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        chooseCountryVC.delegate = self
+        checkInternetConnection()
         newsViewModel.delegate = self
         applyStyling()
         refreshScreen()
@@ -64,17 +63,23 @@ class NewsViewController: UITableViewController {
         }
     }
     
-    internal func didFailWithError(error: Error) {
+    func didFailWithError(error: Error) {
         print(error)
     }
     
-    internal func showAlert() {
-        if newsViewModel.numberOfNewsResults == 0 {
-            let alert = UIAlertController(title: NSLocalizedString("ALERT_TITLE", comment: ""),
-                                          message: NSLocalizedString("ALERT_MESSAGE", comment: ""),
+    func showAlert(alertTitle: String, alertMessage: String, actionTitle: String) {
+            let alert = UIAlertController(title: alertTitle,
+                                          message: alertMessage,
                                           preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("ALERT_ACTION_TITLE", comment: ""), style: .default, handler: nil))
+            alert.addAction(UIAlertAction(title: actionTitle, style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
+    }
+    
+    func checkInternetConnection() {
+        if !newsViewModel.isInternetAvailable() {
+            showAlert(alertTitle: newsViewModel.warningAlertTitle,
+                      alertMessage: newsViewModel.noInternetMessage,
+                      actionTitle: newsViewModel.actionTitle)
         }
     }
 }
@@ -118,7 +123,11 @@ extension NewsViewController: UISearchBarDelegate {
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         if let title = searchBar.text {
             updateNews(searchString: title)
-            showAlert()
+            if newsViewModel.numberOfNewsResults == 0 {
+                showAlert(alertTitle: newsViewModel.noResultsAlertTitle,
+                          alertMessage: newsViewModel.searchAlertMessage,
+                          actionTitle: newsViewModel.actionTitle)
+            }
         }
         searchBar.text = ""
     }
@@ -126,7 +135,11 @@ extension NewsViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let title = searchBar.text {
             updateNews(searchString: title)
-            showAlert()
+            if newsViewModel.numberOfNewsResults == 0 {
+                showAlert(alertTitle: newsViewModel.noResultsAlertTitle,
+                          alertMessage: newsViewModel.searchAlertMessage,
+                          actionTitle: newsViewModel.actionTitle)
+            }
         }
         searchBar.text = ""
         DispatchQueue.main.async {
@@ -138,9 +151,8 @@ extension NewsViewController: UISearchBarDelegate {
 
 extension NewsViewController: ChooseCountryDelegate {
     func didChangeCountry(to code: String) {
-        let countryCode = newsViewModel.countryCode(for: code)
-        print("VC countryCode result: \(newsViewModel.countryCode(for: code))")
-        print("didChangeCountry delegate : \(code)")
+        newsViewModel.countryCode(for: code)
+        let countryCode = newsViewModel.country
         DispatchQueue.main.async {
             self.updateNews(countryCode: countryCode)
         }
