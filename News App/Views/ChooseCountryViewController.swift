@@ -45,7 +45,6 @@ extension ChooseCountryViewController: UITableViewDelegate, UITableViewDataSourc
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let newCountryCode = viewModel.convertToCountryCode(indexPath.row)
-        print("chooseCountryVC converted newCountryCode: \(newCountryCode)")
         delegate?.didChangeCountry(to: newCountryCode)
         dismiss(animated: true, completion: nil)
     }

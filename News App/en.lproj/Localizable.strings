@@ -8,3 +8,6 @@
 "ALERT_TITLE" = "No Results";
 "ALERT_MESSAGE" = "No articles matches your search. Please try again.";
 "ALERT_ACTION_TITLE" = "Okay";
+"WARNING" = "Warning";
+"NO_INTERNET_MESSAGE" = "Internet is not connected. Please connect to the internet and try again.";
+"LOCATION_NOT_ENABLED" = "Location services not enabled.";
